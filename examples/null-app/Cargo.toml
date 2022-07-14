@@ -1,0 +1,8 @@
+[package]
+name = "null-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "null-app"
+path = "app.rs"

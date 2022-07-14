@@ -1,0 +1,6 @@
+[submodule "nativejson-benchmark"]
+	path = nativejson-benchmark
+	url = https://github.com/miloyip/nativejson-benchmark.git
+[submodule "third_party/nativejson-benchmark"]
+	path = third_party/nativejson-benchmark
+	url = https://github.com/miloyip/nativejson-benchmark.git

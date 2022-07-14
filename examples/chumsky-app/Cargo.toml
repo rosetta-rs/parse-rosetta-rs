@@ -1,0 +1,12 @@
+[package]
+name = "chumsky-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "chumsky-app"
+path = "app.rs"
+
+[dependencies]
+ariadne = "0.1.5"
+chumsky = "0.8.0"
