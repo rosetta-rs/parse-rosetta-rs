@@ -15,11 +15,10 @@ This repo tries to assess Rust parsing performance.
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 408ms | 29ms | - | -
-chumsky | 887 KiB | 6s | 799ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.1.5
-nom | 160 KiB | 2s | 513ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.1
-
-*System: Linux 5.10.16.3-microsoft-standard-WSL2 (x86_64) w/ `-j 20`*
+null | 0 KiB | 276ms | 28ms | - | -
+chumsky | 887 KiB | 5s | 740ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.1.5
+nom | 160 KiB | 2s | 504ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.1
+pom | 217 KiB | 603ms | 848ms | ![Download count](https://img.shields.io/crates/dr/pom) | v3.2.0
 
 # Running the Benchmarks
 

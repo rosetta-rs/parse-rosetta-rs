@@ -1,0 +1,11 @@
+[package]
+name = "pom-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "pom-app"
+path = "app.rs"
+
+[dependencies]
+pom = "3.2.0"
