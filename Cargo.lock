@@ -128,6 +128,19 @@ name = "null-app"
 version = "0.1.0"
 
 [[package]]
+name = "pom"
+version = "3.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "07e2192780e9f8e282049ff9bffcaa28171e1cb0844f49ed5374e518ae6024ec"
+
+[[package]]
+name = "pom-app"
+version = "0.1.0"
+dependencies = [
+ "pom",
+]
+
+[[package]]
 name = "proc-macro-hack"
 version = "0.5.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
