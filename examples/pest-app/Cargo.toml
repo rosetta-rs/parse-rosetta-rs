@@ -1,0 +1,11 @@
+[package]
+name = "pest-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "pest-app"
+path = "app.rs"
+
+[dependencies]
+pest = "2.1.3"
