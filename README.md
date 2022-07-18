@@ -41,3 +41,4 @@ $ ./format.py
 [lalrpop]: https://github.com/lalrpop/lalrpop
 [chumsky]: https://github.com/zesterer/chumsky
 [combine]: https://github.com/Marwes/combine
+[pom]: https://github.com/j-f-liu/pom
