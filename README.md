@@ -26,7 +26,7 @@ pom | 217 KiB | 627ms | 855ms | ![Download count](https://img.shields.io/crates/
 *System: Linux 5.10.16.3-microsoft-standard-WSL2 (x86_64) w/ `-j 20`*
 
 Note:
-- Parsers have not been validated and might have differing levels of quality
+- Parsers have not been validated and might have differing levels of quality ([#5](https://github.com/epage/parse-benchmarks-rs/issues/5))
 
 # Running the Benchmarks
 
