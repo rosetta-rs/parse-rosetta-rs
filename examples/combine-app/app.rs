@@ -2,7 +2,6 @@
 extern crate combine;
 
 use std::collections::HashMap;
-use std::hash::Hash;
 use std::{env, fs};
 
 use combine::error::ParseError;
@@ -17,20 +16,17 @@ use combine::parser::repeat::{escaped, sep_by};
 use combine::parser::sequence::between;
 
 #[derive(PartialEq, Debug)]
-enum Value<S>
-where
-    S: Eq + Hash,
-{
+enum Value {
     Number(f64),
-    String(S),
+    String(String),
     Bool(bool),
     Null,
-    Object(HashMap<S, Value<S>>),
-    Array(Vec<Value<S>>),
+    Object(HashMap<String, Value>),
+    Array(Vec<Value>),
 }
 
 #[inline(always)]
-fn json_value<'a, I>() -> impl Parser<Input = I, Output = Value<&'a str>> + 'a
+fn json_value<'a, I>() -> impl Parser<Input = I, Output = Value> + 'a
 where
     I: RangeStream<Item = u8, Range = &'a [u8]> + 'a,
     I::Error: ParseError<I::Item, I::Range, I::Position>,
@@ -42,7 +38,7 @@ where
 // from containing itself
 parser! {
     #[inline(always)]
-    fn json_value_['a, I]()(I) -> Value<&'a str>
+    fn json_value_['a, I]()(I) -> Value
         where [ I: RangeStream<Item = u8, Range = &'a [u8]> + 'a ]
     {
         choice((
@@ -57,7 +53,7 @@ parser! {
     }
 }
 
-fn object<'a, I>() -> impl Parser<Input = I, Output = HashMap<&'a str, Value<&'a str>>>
+fn object<'a, I>() -> impl Parser<Input = I, Output = HashMap<String, Value>> + 'a
 where
     I: RangeStream<Item = u8, Range = &'a [u8]> + 'a,
     I::Error: ParseError<I::Item, I::Range, I::Position>,
@@ -67,7 +63,7 @@ where
     between(lex(byte(b'{')), lex(byte(b'}')), fields).expected("object")
 }
 
-fn array<'a, I>() -> impl Parser<Input = I, Output = Vec<Value<&'a str>>>
+fn array<'a, I>() -> impl Parser<Input = I, Output = Vec<Value>> + 'a
 where
     I: RangeStream<Item = u8, Range = &'a [u8]> + 'a,
     I::Error: ParseError<I::Item, I::Range, I::Position>,
@@ -80,9 +76,9 @@ where
     .expected("array")
 }
 
-fn json_string<'a, I>() -> impl Parser<Input = I, Output = &'a str>
+fn json_string<'a, I>() -> impl Parser<Input = I, Output = String> + 'a
 where
-    I: RangeStream<Item = u8, Range = &'a [u8]>,
+    I: RangeStream<Item = u8, Range = &'a [u8]> + 'a,
     I::Error: ParseError<I::Item, I::Range, I::Position>,
 {
     let back_slash_byte = satisfy_map(|c| {
@@ -103,7 +99,7 @@ where
         b'\\',
         back_slash_byte,
     ))
-    .map(|s| std::str::from_utf8(s).unwrap());
+    .map(|s| std::str::from_utf8(s).unwrap().to_owned());
     between(byte(b'"'), lex(byte(b'"')), inner).expected("string")
 }
 
