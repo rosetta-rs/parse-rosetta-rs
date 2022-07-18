@@ -21,6 +21,10 @@ rule member()
 rule array()
     = "[" _ (value() ** value_separator()) _ "]"
 
+// note: escaped chars not handled
+rule string()
+    = "\"" (!"\"" [_])* "\""
+
 rule number()
     = "-"? int() frac()? exp()? {}
 
@@ -32,10 +36,6 @@ rule exp()
 
 rule frac()
     = "." ['0'..='9']*<1,>
-
-// note: escaped chars not handled
-rule string()
-    = "\"" (!"\"" [_])* "\""
 });
 
 fn main() {

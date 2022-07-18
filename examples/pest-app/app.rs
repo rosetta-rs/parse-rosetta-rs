@@ -17,6 +17,52 @@ use pest::error::Error;
 use pest::iterators::{Pair, Pairs};
 use pest::{state, ParseResult, Parser, ParserState, Span};
 
+#[derive(Debug, PartialEq)]
+enum Json<'i> {
+    Null,
+    Bool(bool),
+    Number(f64),
+    String(Span<'i>),
+    Array(Vec<Json<'i>>),
+    Object(HashMap<Span<'i>, Json<'i>>),
+}
+
+impl<'i> Json<'i> {
+    fn parse(input: &'i str) -> Result<Self, Error<Rule>> {
+        let json = Self::consume(JsonParser::parse(Rule::json, input)?.next().unwrap());
+        Ok(json)
+    }
+
+    fn consume(pair: Pair<'i, Rule>) -> Self {
+        let pair = pair.into_inner().next().unwrap();
+
+        match pair.as_rule() {
+            Rule::null => Self::Null,
+            Rule::bool => match pair.as_str() {
+                "false" => Self::Bool(false),
+                "true" => Self::Bool(true),
+                _ => unreachable!(),
+            },
+            Rule::number => Self::Number(pair.as_str().parse().unwrap()),
+            Rule::string => Self::String(pair.as_span()),
+            Rule::array => Self::Array(pair.into_inner().map(Self::consume).collect()),
+            Rule::object => {
+                let pairs = pair.into_inner().map(|pos| {
+                    let mut pair = pos.into_inner();
+
+                    let key = pair.next().unwrap().as_span();
+                    let value = Self::consume(pair.next().unwrap());
+
+                    (key, value)
+                });
+
+                Self::Object(pairs.collect())
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+
 #[allow(dead_code, non_camel_case_types)]
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 enum Rule {
@@ -254,59 +300,11 @@ impl Parser<Rule> for JsonParser {
     }
 }
 
-#[derive(Debug, PartialEq)]
-enum Json<'i> {
-    Null,
-    Bool(bool),
-    Number(f64),
-    String(Span<'i>),
-    Array(Vec<Json<'i>>),
-    Object(HashMap<Span<'i>, Json<'i>>),
-}
-
-fn consume(pair: Pair<Rule>) -> Json {
-    fn value(pair: Pair<Rule>) -> Json {
-        let pair = pair.into_inner().next().unwrap();
-
-        match pair.as_rule() {
-            Rule::null => Json::Null,
-            Rule::bool => match pair.as_str() {
-                "false" => Json::Bool(false),
-                "true" => Json::Bool(true),
-                _ => unreachable!(),
-            },
-            Rule::number => Json::Number(pair.as_str().parse().unwrap()),
-            Rule::string => Json::String(pair.as_span()),
-            Rule::array => Json::Array(pair.into_inner().map(value).collect()),
-            Rule::object => {
-                let pairs = pair.into_inner().map(|pos| {
-                    let mut pair = pos.into_inner();
-
-                    let key = pair.next().unwrap().as_span();
-                    let value = value(pair.next().unwrap());
-
-                    (key, value)
-                });
-
-                Json::Object(pairs.collect())
-            }
-            _ => unreachable!(),
-        }
-    }
-
-    value(pair)
-}
-
-fn parse(input: &str) -> Result<Json, Error<Rule>> {
-    let json = consume(JsonParser::parse(Rule::json, input)?.next().unwrap());
-    Ok(json)
-}
-
 fn main() {
     let src = fs::read_to_string(env::args().nth(1).expect("Expected file argument"))
         .expect("Failed to read file");
 
-    match parse(&src) {
+    match Json::parse(&src) {
         Ok(json) => {
             println!("{:#?}", json);
         }
