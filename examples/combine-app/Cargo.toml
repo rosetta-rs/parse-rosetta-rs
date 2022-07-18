@@ -1,0 +1,11 @@
+[package]
+name = "combine-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "combine-app"
+path = "app.rs"
+
+[dependencies]
+combine = "3.3.0"
