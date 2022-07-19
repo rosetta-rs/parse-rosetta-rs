@@ -1,4 +1,4 @@
-# Rust Markdown Parsing Benchmarks
+# Rust JSON Parsing Benchmarks
 
 This repo tries to assess Rust parsing performance.
 
