@@ -8,4 +8,4 @@ name = "pest-app"
 path = "app.rs"
 
 [dependencies]
-pest = "2.5.2"
+pest = "2.5.4"
