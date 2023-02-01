@@ -8,4 +8,4 @@ name = "nom-app"
 path = "app.rs"
 
 [dependencies]
-nom = "7.1.1"
+nom = "7.1.3"
