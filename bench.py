@@ -7,6 +7,7 @@ import multiprocessing
 import pathlib
 import platform
 import subprocess
+import sys
 import tempfile
 
 
@@ -17,6 +18,7 @@ def main():
     hostname = platform.node()
     uname = platform.uname()
     cpus = multiprocessing.cpu_count()
+    extension = ".exe" if sys.platform in ("win32", "cygwin") else ""
 
     runs_root = repo_root / "runs"
     runs_root.mkdir(parents=True, exist_ok=True)
@@ -67,7 +69,7 @@ def main():
             if True:
                 # Doing release builds because that is where size probably matters most
                 subprocess.run(["cargo", "build", "--release", "--package", example_path.name], cwd=repo_root, check=True)
-                app_path = repo_root / f"target/release/{example_path.name}"
+                app_path = repo_root / f"target/release/{example_path.name}{extension}"
                 file_size = app_path.stat().st_size
             else:
                 app_path = None
