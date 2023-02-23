@@ -1,24 +1,26 @@
-#[macro_use]
-extern crate combine;
-
+mod json;
 mod parser;
 
 use std::{env, fs};
 
-use combine::Parser;
+use winnow::error::VerboseError;
+use winnow::prelude::*;
 
 fn main() {
     let src = fs::read_to_string(env::args().nth(1).expect("Expected file argument"))
         .expect("Failed to read file");
 
-    let mut parser = parser::json_value();
-    match parser.easy_parse(src.as_bytes()) {
+    match parser::json::<VerboseError<parser::Stream<'_>>>
+        .parse_next(src.as_str())
+        .finish()
+        .map_err(VerboseError::into_owned)
+    {
         Ok(json) => {
             println!("{:#?}", json);
         }
         Err(err) => {
-            eprintln!("{:#?}", err);
+            eprintln!("{}", err);
             std::process::exit(1);
         }
-    };
+    }
 }
