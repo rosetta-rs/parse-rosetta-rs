@@ -2,7 +2,7 @@
 
 This repo tries to assess Rust parsing performance.
 
-| crate     | parser type | action code | integration        | input type               | precedence climbing | parameterized rules | streaming input |
+| crate     | parser type | action code | integration        | input type             | precedence climbing | parameterized rules | streaming input |
 |-----------|-------------|-------------|--------------------|------------------------|---------------------|---------------------|-----------------|
 | [chumsky] | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
 | [combine] | combiantors | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
@@ -11,6 +11,7 @@ This repo tries to assess Rust parsing performance.
 | [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
 | [pest]    | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
 | [pom]     | combiantors | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
+| [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom  | No                 | Yes                 | Yes             |
 
 # Results
 
@@ -37,10 +38,11 @@ $ ./bench.py
 $ ./format.py
 ```
 
-[peg]: https://github.com/kevinmehall/rust-peg
-[pest]: https://github.com/pest-parser/pest
-[nom]: https://github.com/geal/nom
-[lalrpop]: https://github.com/lalrpop/lalrpop
 [chumsky]: https://github.com/zesterer/chumsky
 [combine]: https://github.com/Marwes/combine
+[lalrpop]: https://github.com/lalrpop/lalrpop
+[nom]: https://github.com/geal/nom
+[peg]: https://github.com/kevinmehall/rust-peg
+[pest]: https://github.com/pest-parser/pest
 [pom]: https://github.com/j-f-liu/pom
+[winnow]: https://github.com/winnow-rs/winnow
