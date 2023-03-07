@@ -18,14 +18,15 @@ This repo tries to assess Rust parsing performance.
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 391ms | 22ms | - | -
-chumsky | 773 KiB | 8s | 1s | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.1.5
-combine | 228 KiB | 5s | 867ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-nom | 161 KiB | 2s | 848ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
-peg | 29 KiB | 2s | **invalid** | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.1
-pest | 143 KiB | 5s | 757ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.5.5
-pom | 215 KiB | 890ms | 2s | ![Download count](https://img.shields.io/crates/dr/pom) | v3.2.0
-winnow | 143 KiB | 2s | 747ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.3.0
+null | 0 KiB | 390ms | 22ms | - | -
+chumsky | 790 KiB | 8s | 1s | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.1.6
+combine | 228 KiB | 5s | 863ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+nom | 161 KiB | 2s | 849ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
+peg | 29 KiB | 3s | **invalid** | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.1
+pest | 143 KiB | 6s | 755ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.5.6
+pom | 215 KiB | 902ms | 2s | ![Download count](https://img.shields.io/crates/dr/pom) | v3.2.0
+winnow | 143 KiB | 2s | 787ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.3.5
+yap | 92 KiB | 697ms | 795ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.9.1
 
 *System: Linux 5.4.0-104-generic (x86_64) w/ `-j 8`*
 
