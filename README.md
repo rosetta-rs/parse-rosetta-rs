@@ -11,7 +11,8 @@ This repo tries to assess Rust parsing performance.
 | [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
 | [pest]    | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
 | [pom]     | combiantors | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom  | No                 | Yes                 | Yes             |
+| [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | Yes             |
+| [yap]     | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | ?               |
 
 # Results
 
@@ -47,3 +48,4 @@ $ ./format.py
 [pest]: https://github.com/pest-parser/pest
 [pom]: https://github.com/j-f-liu/pom
 [winnow]: https://github.com/winnow-rs/winnow
+[yap]: https://github.com/jsdw/yap

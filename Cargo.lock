@@ -372,3 +372,16 @@ name = "yansi"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09041cd90cf85f7f8b2df60c646f853b7f535ce68f85244eb6731cf89fa498ec"
+
+[[package]]
+name = "yap"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "11318ed0151b52f81fd17976ccfd7533b20f062e497c192067ff6261809a1d1e"
+
+[[package]]
+name = "yap-app"
+version = "0.1.0"
+dependencies = [
+ "yap",
+]
