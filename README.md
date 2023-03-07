@@ -11,7 +11,8 @@ This repo tries to assess Rust parsing performance.
 | [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
 | [pest]    | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
 | [pom]     | combiantors | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom  | No                 | Yes                 | Yes             |
+| [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | Yes             |
+| [yap]     | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | ?               |
 
 # Results
 
