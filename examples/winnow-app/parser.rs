@@ -4,7 +4,7 @@ use std::str;
 use winnow::prelude::*;
 use winnow::{
     branch::{alt, dispatch},
-    bytes::{any, none_of, tag, take, take_while0},
+    bytes::{any, none_of, take, take_while0},
     character::float,
     combinator::cut_err,
     combinator::fail,
@@ -34,7 +34,7 @@ pub type Stream<'i> = &'i str;
 pub fn json<'i, E: ParseError<Stream<'i>> + ContextError<Stream<'i>, &'static str>>(
     input: Stream<'i>,
 ) -> IResult<Stream<'i>, JsonValue, E> {
-    delimited(ws, json_value, ws)(input)
+    delimited(ws, json_value, ws).parse_next(input)
 }
 
 /// `alt` is a combinator that tries multiple parsers one by one, until
@@ -65,7 +65,7 @@ fn json_value<'i, E: ParseError<Stream<'i>> + ContextError<Stream<'i>, &'static 
 fn null<'i, E: ParseError<Stream<'i>>>(input: Stream<'i>) -> IResult<Stream<'i>, &'i str, E> {
     // This is a parser that returns `"null"` if it sees the string "null", and
     // an error otherwise
-    tag("null").parse_next(input)
+    "null".parse_next(input)
 }
 
 /// We can combine `tag` with other functions, like `value` which returns a given constant value on
@@ -73,7 +73,7 @@ fn null<'i, E: ParseError<Stream<'i>>>(input: Stream<'i>) -> IResult<Stream<'i>,
 fn true_<'i, E: ParseError<Stream<'i>>>(input: Stream<'i>) -> IResult<Stream<'i>, bool, E> {
     // This is a parser that returns `true` if it sees the string "true", and
     // an error otherwise
-    tag("true").value(true).parse_next(input)
+    "true".value(true).parse_next(input)
 }
 
 /// We can combine `tag` with other functions, like `value` which returns a given constant value on
@@ -81,7 +81,7 @@ fn true_<'i, E: ParseError<Stream<'i>>>(input: Stream<'i>) -> IResult<Stream<'i>
 fn false_<'i, E: ParseError<Stream<'i>>>(input: Stream<'i>) -> IResult<Stream<'i>, bool, E> {
     // This is a parser that returns `false` if it sees the string "false", and
     // an error otherwise
-    tag("false").value(false).parse_next(input)
+    "false".value(false).parse_next(input)
 }
 
 /// This parser gathers all `char`s up into a `String`with a parse to recognize the double quote
@@ -112,7 +112,7 @@ fn string<'i, E: ParseError<Stream<'i>> + ContextError<Stream<'i>, &'static str>
 /// You can mix the above declarative parsing with an imperative style to handle more unique cases,
 /// like escaping
 fn character<'i, E: ParseError<Stream<'i>>>(input: Stream<'i>) -> IResult<Stream<'i>, char, E> {
-    let (input, c) = none_of("\"")(input)?;
+    let (input, c) = none_of("\"").parse_next(input)?;
     if c == '\\' {
         dispatch!(any;
           '"' => success('"'),
@@ -191,7 +191,7 @@ fn object<'i, E: ParseError<Stream<'i>> + ContextError<Stream<'i>, &'static str>
 fn key_value<'i, E: ParseError<Stream<'i>> + ContextError<Stream<'i>, &'static str>>(
     input: Stream<'i>,
 ) -> IResult<Stream<'i>, (String, JsonValue), E> {
-    separated_pair(string, cut_err((ws, ':', ws)), json_value)(input)
+    separated_pair(string, cut_err((ws, ':', ws)), json_value).parse_next(input)
 }
 
 /// Parser combinators are constructed from the bottom up:
@@ -200,7 +200,7 @@ fn key_value<'i, E: ParseError<Stream<'i>> + ContextError<Stream<'i>, &'static s
 fn ws<'i, E: ParseError<Stream<'i>>>(input: Stream<'i>) -> IResult<Stream<'i>, &'i str, E> {
     // Combinators like `take_while0` return a function. That function is the
     // parser,to which we can pass the input
-    take_while0(WS)(input)
+    take_while0(WS).parse_next(input)
 }
 
 const WS: &str = " \t\r\n";

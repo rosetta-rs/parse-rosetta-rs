@@ -11,8 +11,7 @@ fn main() {
         .expect("Failed to read file");
 
     match parser::json::<VerboseError<parser::Stream<'_>>>
-        .parse_next(src.as_str())
-        .finish()
+        .parse(src.as_str())
         .map_err(VerboseError::into_owned)
     {
         Ok(json) => {

@@ -8,4 +8,4 @@ name = "yap-app"
 path = "app.rs"
 
 [dependencies]
-yap = "0.9"
+yap = "0.10"
