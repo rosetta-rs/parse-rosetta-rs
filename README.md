@@ -18,17 +18,17 @@ This repo tries to assess Rust parsing performance.
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 429ms | 32ms | - | -
-chumsky | 788 KiB | 10s | 2s | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.2.0
-combine | 227 KiB | 6s | 1s | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-nom | 158 KiB | 3s | 1s | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
-peg | 33 KiB | 3s | 25ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.1
-pest | 148 KiB | 7s | 1s | ![Download count](https://img.shields.io/crates/dr/pest) | v2.5.6
-pom | 215 KiB | 1s | 2s | ![Download count](https://img.shields.io/crates/dr/pom) | v3.2.0
-winnow | 139 KiB | 2s | 984ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.4.0
-yap | 89 KiB | 849ms | 977ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.10.0
+null | 0 KiB | 332ms | 26ms | - | -
+chumsky | 788 KiB | 8s | 1s | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.2.0
+combine | 227 KiB | 5s | 855ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+nom | 158 KiB | 2s | 881ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
+peg | 33 KiB | 3s | 18ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.1
+pest | 157 KiB | 5s | 808ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.6.0
+pom | 215 KiB | 845ms | 2s | ![Download count](https://img.shields.io/crates/dr/pom) | v3.2.0
+winnow | 136 KiB | 2s | 749ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.5.0
+yap | 89 KiB | 647ms | 775ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.10.0
 
-*System: Linux 5.4.0-104-generic (x86_64) w/ `-j 8`*
+*System: Linux 5.4.0-124-generic (x86_64) w/ `-j 8`*
 
 Note:
 - For more "Parse (release)" comparisons, see [parser_benchmarks](https://github.com/rust-bakery/parser_benchmarks)
