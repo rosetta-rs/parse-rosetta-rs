@@ -134,7 +134,7 @@ fn object(toks: &mut impl Tokens<Item = char>) -> Option<Result<HashMap<String, 
 
     // If we hit any errors above, return it.
     let Ok(values) = values else {
-        return Some(values)
+        return Some(values);
     };
 
     skip_whitespace(&mut *toks);
