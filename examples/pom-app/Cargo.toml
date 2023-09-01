@@ -8,4 +8,4 @@ name = "pom-app"
 path = "app.rs"
 
 [dependencies]
-pom = "3.2.0"
+pom = "3.3.0"
