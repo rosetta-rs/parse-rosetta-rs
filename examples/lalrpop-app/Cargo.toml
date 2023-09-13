@@ -1,0 +1,14 @@
+[package]
+name = "lalrpop-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "lalrpop-app"
+path = "app.rs"
+
+[build-dependencies]
+lalrpop = { version = "0.20", features = ["lexer", "unicode"] }
+
+[dependencies]
+lalrpop-util = { version = "0.20", features = ["lexer", "unicode"] }
