@@ -23,7 +23,7 @@ chumsky | 672 KiB | 7s | 1s | ![Download count](https://img.shields.io/crates/dr
 combine | 223 KiB | 4s | 880ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
 lalrpop | 1,607 KiB | 12s | 2s | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
 nom | 141 KiB | 2s | 932ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
-peg | 27 KiB | 2s | 19ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.1
+peg | 27 KiB | 2s | **invalid** | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.1
 pest | 157 KiB | 4s | 844ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.3
 pom | 187 KiB | 2s | 2s | ![Download count](https://img.shields.io/crates/dr/pom) | v3.3.0
 winnow | 121 KiB | 2s | 729ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.5.15
