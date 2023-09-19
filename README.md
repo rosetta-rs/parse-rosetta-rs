@@ -5,12 +5,12 @@ This repo tries to assess Rust parsing performance.
 | crate     | parser type | action code | integration        | input type             | precedence climbing | parameterized rules | streaming input |
 |-----------|-------------|-------------|--------------------|------------------------|---------------------|---------------------|-----------------|
 | [chumsky] | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [combine] | combiantors | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
+| [combine] | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
 | [lalrpop] | LR(1)       | in grammar  | build script       | `&str`                 | No                  | Yes                 | No              |
 | [nom]     | combinators | in source   | library            | `&[u8]`, custom        | No                  | Yes                 | Yes             |
 | [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
 | [pest]    | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
-| [pom]     | combiantors | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
+| [pom]     | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
 | [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | Yes             |
 | [yap]     | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | ?               |
 
