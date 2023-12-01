@@ -23,13 +23,13 @@ pub enum Value {
 #[derive(PartialEq, Debug)]
 pub struct Error {
     // Start and end location of the error
-    pub location: (usize, usize),
+    location: (usize, usize),
     // What was the nature of the error?
-    pub kind: ErrorKind,
+    kind: ErrorKind,
 }
 
 #[derive(PartialEq, Debug)]
-pub enum ErrorKind {
+enum ErrorKind {
     // No ']' seen while parsing array.
     ArrayNotClosed,
     // No '}' seen while parsing object.
@@ -42,8 +42,6 @@ pub enum ErrorKind {
     InvalidEscapeChar(char),
     // the file ended while we were still parsing.
     UnexpectedEof,
-    // We expect to see a digit here while parsing a number.
-    DigitExpectedNext,
     // We didn't successfully parse any valid JSON at all.
     InvalidJson,
 }
@@ -68,7 +66,7 @@ fn value(toks: &mut impl Tokens<Item = char>) -> Result<Value, Error> {
         array(ts).map(|res| res.map(Value::Array)),
         string(ts).map(|res| res.map(Value::String)),
         object(ts).map(|res| res.map(Value::Object)),
-        number(ts).map(|res| res.map(Value::Number)),
+        number(ts).map(|v| Ok(Value::Number(v))),
         bool(ts).map(|v| Ok(Value::Bool(v))),
         null(ts).then_some(Ok(Value::Null))
     );
@@ -92,10 +90,9 @@ fn array(toks: &mut impl Tokens<Item = char>) -> Option<Result<Vec<Value>, Error
     let start = toks.location();
 
     // Try to consume a '['. If we can't, we consume nothing and bail.
-    // This isn't strictly necessary because we consume nothing in our
-    // `value()` parser if `array()` returns None, but is here for
-    // the sake of completeness.
-    toks.optional(|ts| ts.token('[').then_some(()))?;
+    if !toks.token('[') {
+        return None;
+    }
     skip_whitespace(&mut *toks);
 
     // Use our `value()` parser to parse each array value, separated by ','.
@@ -122,9 +119,10 @@ fn object(toks: &mut impl Tokens<Item = char>) -> Option<Result<HashMap<String, 
     // Note the location of the start of the object.
     let start = toks.location();
 
-    // As with `array()`, we consume nothing and bail with None if a '{' isn't seen,
-    // but just using `if !toks.token('{')` would have worked fine too.
-    toks.optional(|ts| ts.token('{').then_some(()))?;
+    // Try to consume a '{'. If we can't, we consume nothing and bail.
+    if !toks.token('{') {
+        return None;
+    }
     skip_whitespace(&mut *toks);
 
     // Expect object fields like `name: value` to be separated like arrays are.
@@ -186,13 +184,14 @@ fn object_field(toks: &mut impl Tokens<Item = char>) -> Option<Result<(String, V
 /// Some fairly naive parsing of strings which just manually iterates over tokens
 /// to handle basic escapes and pushes them to a string.
 ///
-/// - `None` if nothingconsumed and not a string
+/// - `None` if nothing consumed and not a string
 /// - `Some(Ok(s))` if we parsed a string successfully
 /// - `Some(Err(e))` if something went wrong parsing a string.
 fn string(toks: &mut impl Tokens<Item = char>) -> Option<Result<String, Error>> {
-    // As with `array()` and `object()`, we consume nothing and bail with None
-    // if an opening '"' isn't seen.
-    toks.optional(|ts| ts.token('"').then_some(()))?;
+    // Try to consume a '"'. If we can't, we consume nothing and bail.
+    if !toks.token('"') {
+        return None;
+    }
 
     // manually iterate over chars and handle them as needed,
     // adding them to our string.
@@ -245,60 +244,15 @@ fn null(toks: &mut impl Tokens<Item = char>) -> bool {
     toks.tokens("null".chars())
 }
 
-/// Numbers are maybe the most difficult thing to parse. Here, we store the start
-/// location and then skip over tokens as long as they are what we expect, bailing with
-/// `None` if something isn't right. At the end, we gather all of the tokens we skipped
-/// over at once and parse them into a number.
-///
-/// A better parser could return specific errors depending on where we failed in our parsing.
-fn number(toks: &mut impl Tokens<Item = char>) -> Option<Result<f64, Error>> {
-    let start = toks.location();
-
-    // Look for the start of a number. return None if
-    // we're not looking at a number. Consume the token
-    // if it looks like the start of a number.
-    let is_fst_number = match toks.peek()? {
-        '-' | '+' => toks.next().map(|_| false),
-        '0'..='9' => toks.next().map(|_| true),
-        _ => None,
-    }?;
-
-    // Now, skip over digits. If none, then this isn't an number unless
-    // the char above was a digit too.
-    let num_skipped = toks.skip_tokens_while(|c| c.is_numeric());
-    if num_skipped == 0 && !is_fst_number {
-        let loc = toks.location();
-        return Some(Err(ErrorKind::DigitExpectedNext.at(start, loc)));
-    }
-
-    // A number might have a '.1234' suffix, but if it doesn't, don't consume
-    // anything. If it does but something went wrong, we'll get Some(Err) back.
-    let suffix = toks.optional(|toks| {
-        if !toks.token('.') {
-            return None;
-        }
-        let num_digits = toks.tokens_while(|c| c.is_numeric()).count();
-        if num_digits == 0 {
-            let loc = toks.location();
-            Some(Err(ErrorKind::DigitExpectedNext.at(start.clone(), loc)))
-        } else {
-            Some(Ok(()))
-        }
-    });
-
-    // If we hit an error parsing the suffix, return it.
-    if let Some(Err(e)) = suffix {
-        return Some(Err(e));
-    }
-
-    // If we get this far, we saw a valid number. Just let Rust parse it for us..
-    let end = toks.location();
-    let n_str: String = toks.slice(start, end).as_iter().collect();
-    Some(Ok(n_str.parse().expect("valid number expected here")))
+/// Use the [`yap::chars::parse_f64`] helper function to parse
+/// anything that rust considers a valid float (which is a little more
+/// permissive than the JSON standard, actually).
+fn number(toks: &mut impl Tokens<Item = char>) -> Option<f64> {
+    yap::chars::parse_f64::<String>(toks)
 }
 
 fn skip_whitespace(toks: &mut impl Tokens<Item = char>) {
-    toks.skip_tokens_while(|c| c.is_ascii_whitespace());
+    toks.skip_while(|c| c.is_ascii_whitespace());
 }
 
 fn field_separator(toks: &mut impl Tokens<Item = char>) -> bool {
