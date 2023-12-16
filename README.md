@@ -2,17 +2,17 @@
 
 This repo tries to assess Rust parsing performance.
 
-| crate     | parser type | action code | integration        | input type             | precedence climbing | parameterized rules | streaming input |
-|-----------|-------------|-------------|--------------------|------------------------|---------------------|---------------------|-----------------|
-| [chumsky] | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [combine] | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [lalrpop] | LR(1)       | in grammar  | build script       | `&str`                 | No                  | Yes                 | No              |
-| [nom]     | combinators | in source   | library            | `&[u8]`, custom        | No                  | Yes                 | Yes             |
-| [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
-| [pest]    | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
-| [pom]     | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | Yes             |
-| [yap]     | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | ?               |
+| crate     | parser type | action code | integration        | input type              | precedence climbing | parameterized rules | streaming input                                                         |
+|-----------|-------------|-------------|--------------------|-------------------------|---------------------|---------------------|-------------------------------------------------------------------------|
+| [chumsky] | combinators | in source   | library            | `&str`, `&[T]`, custom  | ?                   | ?                   | [Yes](https://docs.rs/chumsky/latest/chumsky/stream/struct.Stream.html) |
+| [combine] | combinators | in source   | library            | `&str`, `&[T]`, custom  | ?                   | ?                   | [Yes](https://docs.rs/combine/latest/combine/stream/index.html)         |
+| [lalrpop] | LR(1)       | in grammar  | build script       | `&str`                  | No                  | Yes                 | No                                                                      |
+| [nom]     | combinators | in source   | library            | `&str`, `&[u8]`, custom | No                  | Yes                 | [Yes](https://docs.rs/nom/latest/nom/bytes/streaming/index.html)        |
+| [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | Yes                 | Yes                 | No                                                                      |
+| [pest]    | PEG         | external    | proc macro (file)  | `&str`                  | Yes                 | No                  | No                                                                      |
+| [pom]     | combinators | in source   | library            | `&str`                  | ?                   | ?                   | No                                                                      |
+| [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom  | No                  | Yes                 | [Yes](https://docs.rs/winnow/latest/winnow/stream/index.html)           |
+| [yap]     | combinators | in source   | library            | `&str`, `&[T]`, custom  | No                  | Yes                 | [Yes](https://docs.rs/yap_streaming/)                                   |
 
 # Results
 
