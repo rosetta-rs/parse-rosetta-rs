@@ -9,4 +9,5 @@ path = "app.rs"
 
 [dependencies]
 ariadne = "0.3.0"
-chumsky = "0.9.3"
+#chumsky = "1.0.0-alpha.6"
+chumsky = { git = "https://github.com/zesterer/chumsky.git" }

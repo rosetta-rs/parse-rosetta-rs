@@ -7,7 +7,6 @@ use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
 pub enum Json {
-    Invalid,
     Null,
     Bool(bool),
     Str(String),
@@ -16,89 +15,67 @@ pub enum Json {
     Object(HashMap<String, Json>),
 }
 
-pub fn parser() -> impl Parser<char, Json, Error = Simple<char>> {
+pub fn parser<'a>() -> impl Parser<'a, &'a [u8], Json, extra::Err<Cheap>> {
     recursive(|value| {
-        let frac = just('.').chain(text::digits(10));
+        let digits = one_of(b'0'..=b'9').repeated();
 
-        let exp = just('e')
-            .or(just('E'))
-            .chain(just('+').or(just('-')).or_not())
-            .chain::<char, _, _>(text::digits(10));
+        let int = one_of(b'1'..=b'9')
+            .then(one_of(b'0'..=b'9').repeated())
+            .ignored()
+            .or(just(b'0').ignored())
+            .ignored();
 
-        let number = just('-')
+        let frac = just(b'.').then(digits.clone());
+
+        let exp = one_of(b"eE")
+            .then(one_of(b"+-").or_not())
+            .then(digits.clone());
+
+        let number = just(b'-')
             .or_not()
-            .chain::<char, _, _>(text::int(10))
-            .chain::<char, _, _>(frac.or_not().flatten())
-            .chain::<char, _, _>(exp.or_not().flatten())
-            .collect::<String>()
-            .from_str()
-            .unwrapped()
-            .labelled("number");
+            .then(int)
+            .then(frac.or_not())
+            .then(exp.or_not())
+            .to_slice()
+            .map(|bytes| std::str::from_utf8(bytes).unwrap().parse().unwrap())
+            .boxed();
 
-        let escape = just('\\').ignore_then(
-            just('\\')
-                .or(just('/'))
-                .or(just('"'))
-                .or(just('b').to('\x08'))
-                .or(just('f').to('\x0C'))
-                .or(just('n').to('\n'))
-                .or(just('r').to('\r'))
-                .or(just('t').to('\t'))
-                .or(just('u').ignore_then(
-                    filter(|c: &char| c.is_digit(16))
-                        .repeated()
-                        .exactly(4)
-                        .collect::<String>()
-                        .validate(|digits, span, emit| {
-                            char::from_u32(u32::from_str_radix(&digits, 16).unwrap())
-                                .unwrap_or_else(|| {
-                                    emit(Simple::custom(span, "invalid unicode character"));
-                                    '\u{FFFD}' // unicode replacement character
-                                })
-                        }),
-                )),
-        );
+        let escape = just(b'\\').then_ignore(one_of(b"\\/\"bfnrt"));
 
-        let string = just('"')
-            .ignore_then(filter(|c| *c != '\\' && *c != '"').or(escape).repeated())
-            .then_ignore(just('"'))
-            .collect::<String>()
-            .labelled("string");
+        let string = none_of(b"\\\"")
+            .or(escape)
+            .repeated()
+            .to_slice()
+            .delimited_by(just(b'"'), just(b'"'))
+            .map(|bytes| std::str::from_utf8(bytes).unwrap().to_owned())
+            .boxed();
 
         let array = value
             .clone()
-            .chain(just(',').ignore_then(value.clone()).repeated())
-            .or_not()
-            .flatten()
-            .delimited_by(just('['), just(']'))
-            .map(Json::Array)
-            .labelled("array");
+            .separated_by(just(b','))
+            .collect()
+            .padded()
+            .delimited_by(just(b'['), just(b']'))
+            .boxed();
 
-        let member = string.clone().then_ignore(just(':').padded()).then(value);
+        let member = string.clone().then_ignore(just(b':').padded()).then(value);
         let object = member
             .clone()
-            .chain(just(',').padded().ignore_then(member).repeated())
-            .or_not()
-            .flatten()
+            .separated_by(just(b',').padded())
+            .collect()
             .padded()
-            .delimited_by(just('{'), just('}'))
-            .collect::<HashMap<String, Json>>()
-            .map(Json::Object)
-            .labelled("object");
+            .delimited_by(just(b'{'), just(b'}'))
+            .boxed();
 
-        just("null")
-            .to(Json::Null)
-            .labelled("null")
-            .or(just("true").to(Json::Bool(true)).labelled("true"))
-            .or(just("false").to(Json::Bool(false)).labelled("false"))
-            .or(number.map(Json::Num))
-            .or(string.map(Json::Str))
-            .or(array)
-            .or(object)
-            .recover_with(nested_delimiters('{', '}', [('[', ']')], |_| Json::Invalid))
-            .recover_with(nested_delimiters('[', ']', [('{', '}')], |_| Json::Invalid))
-            .recover_with(skip_then_retry_until(['}', ']']))
-            .padded()
+        choice((
+            just(b"null").to(Json::Null),
+            just(b"true").to(Json::Bool(true)),
+            just(b"false").to(Json::Bool(false)),
+            number.map(Json::Num),
+            string.map(Json::Str),
+            array.map(Json::Array),
+            object.map(Json::Object),
+        ))
+        .padded()
     })
-    .then_ignore(end().recover_with(skip_then_retry_until([])))
 }
