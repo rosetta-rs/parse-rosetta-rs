@@ -19,16 +19,17 @@ This repo tries to assess Rust parsing performance.
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 227ms | 24ms | - | -
-chumsky | 672 KiB | 7s | 1s | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.3.0
-combine | 223 KiB | 4s | 880ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-lalrpop | 1,607 KiB | 12s | 2s | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
-nom | 141 KiB | 2s | 932ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
-peg | 27 KiB | 2s | **invalid** | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.1
-pest | 157 KiB | 4s | 844ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.3
-pom | 187 KiB | 2s | 2s | ![Download count](https://img.shields.io/crates/dr/pom) | v3.3.0
-winnow | 121 KiB | 2s | 729ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.5.15
-yap | 89 KiB | 479ms | 765ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.10.0
+null | 0 KiB | 258ms | 35ms | - | -
+chumsky | 688 KiB | 8s | 1s | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.3.0
+logos | 203 KiB | 6s | 966ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
+combine | 217 KiB | 5s | 1s | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+lalrpop | 1,650 KiB | 13s | 2s | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
+nom | 132 KiB | 2s | 1s | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
+peg | 21 KiB | 2s | **invalid** | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.2
+pest | 137 KiB | 5s | 957ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.6
+pom | 176 KiB | 2s | 2s | ![Download count](https://img.shields.io/crates/dr/pom) | v3.3.0
+winnow | 106 KiB | 2s | 1s | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.5.35
+yap | 95 KiB | 614ms | 938ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
 
 *System: Linux 5.4.0-124-generic (x86_64) w/ `-j 8`*
 
