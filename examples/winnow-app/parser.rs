@@ -5,12 +5,12 @@ use winnow::prelude::*;
 use winnow::{
     ascii::float,
     combinator::cut_err,
+    combinator::empty,
     combinator::fail,
     combinator::peek,
-    combinator::success,
     combinator::{alt, dispatch},
     combinator::{delimited, preceded, separated_pair, terminated},
-    combinator::{fold_repeat, separated0},
+    combinator::{fold_repeat, separated},
     error::{AddContext, ParserError, StrContext},
     token::{any, none_of, take, take_while},
 };
@@ -115,14 +115,14 @@ fn character<'i, E: ParserError<Stream<'i>>>(input: &mut Stream<'i>) -> PResult<
     let c = none_of('\"').parse_next(input)?;
     if c == '\\' {
         dispatch!(any;
-          '"' => success('"'),
-          '\\' => success('\\'),
-          '/'  => success('/'),
-          'b' => success('\x08'),
-          'f' => success('\x0C'),
-          'n' => success('\n'),
-          'r' => success('\r'),
-          't' => success('\t'),
+          '"' => empty.value('"'),
+          '\\' => empty.value('\\'),
+          '/'  => empty.value('/'),
+          'b' => empty.value('\x08'),
+          'f' => empty.value('\x0C'),
+          'n' => empty.value('\n'),
+          'r' => empty.value('\r'),
+          't' => empty.value('\t'),
           'u' => unicode_escape,
           _ => fail,
         )
@@ -160,7 +160,7 @@ fn u16_hex<'i, E: ParserError<Stream<'i>>>(input: &mut Stream<'i>) -> PResult<u1
         .parse_next(input)
 }
 
-/// Some combinators, like `separated0` or `many0`, will call a parser repeatedly,
+/// Some combinators, like `separated` or `many0`, will call a parser repeatedly,
 /// accumulating results in a `Vec`, until it encounters an error.
 /// If you want more control on the parser application, check out the `iterator`
 /// combinator (cf `examples/iterator.rs`)
@@ -169,7 +169,10 @@ fn array<'i, E: ParserError<Stream<'i>> + AddContext<Stream<'i>, StrContext>>(
 ) -> PResult<Vec<JsonValue>, E> {
     preceded(
         ('[', ws),
-        cut_err(terminated(separated0(json_value, (ws, ',', ws)), (ws, ']'))),
+        cut_err(terminated(
+            separated(0.., json_value, (ws, ',', ws)),
+            (ws, ']'),
+        )),
     )
     .context(StrContext::Label("array"))
     .parse_next(input)
@@ -180,7 +183,10 @@ fn object<'i, E: ParserError<Stream<'i>> + AddContext<Stream<'i>, StrContext>>(
 ) -> PResult<HashMap<String, JsonValue>, E> {
     preceded(
         ('{', ws),
-        cut_err(terminated(separated0(key_value, (ws, ',', ws)), (ws, '}'))),
+        cut_err(terminated(
+            separated(0.., key_value, (ws, ',', ws)),
+            (ws, '}'),
+        )),
     )
     .context(StrContext::Label("object"))
     .parse_next(input)
