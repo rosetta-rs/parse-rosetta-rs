@@ -7,6 +7,7 @@ This repo tries to assess Rust parsing performance.
 | [chumsky] | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
 | [combine] | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
 | [lalrpop] | LR(1)       | in grammar  | build script       | `&str`                 | No                  | Yes                 | No              |
+| [logos]   | lexer       | in source   | proc macro         | `&str`, `&[u8]`        | ?                   | ?                   | ?               |
 | [nom]     | combinators | in source   | library            | `&[u8]`, custom        | No                  | Yes                 | Yes             |
 | [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
 | [pest]    | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
@@ -45,6 +46,7 @@ $ ./format.py
 [chumsky]: https://github.com/zesterer/chumsky
 [combine]: https://github.com/Marwes/combine
 [lalrpop]: https://github.com/lalrpop/lalrpop
+[logos]: https://github.com/maciejhirsz/logos
 [nom]: https://github.com/geal/nom
 [peg]: https://github.com/kevinmehall/rust-peg
 [pest]: https://github.com/pest-parser/pest
