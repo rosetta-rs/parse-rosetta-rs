@@ -21,17 +21,18 @@ Formerly, we compared:
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 258ms | 35ms | - | -
-chumsky | 688 KiB | 8s | 1s | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.3.0
-logos | 203 KiB | 6s | 966ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
-combine | 217 KiB | 5s | 1s | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-lalrpop | 1,650 KiB | 13s | 2s | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
-nom | 132 KiB | 2s | 1s | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
-pest | 137 KiB | 5s | 957ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.6
-winnow | 106 KiB | 2s | 1s | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.5.35
-yap | 95 KiB | 614ms | 938ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
+null | 0 KiB | 203ms | 4ms | - | -
+chumsky | 662 KiB | 6s | 365ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
+logos | 171 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
+combine | 184 KiB | 4s | 41ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+lalrpop | 1,619 KiB | 11s | 886ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
+nom | 100 KiB | 2s | 65ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
+pest | 104 KiB | 4s | 51ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.6
+serde_json | 42 KiB | 3s | 13ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.113
+winnow | 74 KiB | 2s | 23ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.5.36
+yap | 59 KiB | 471ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
 
-*System: Linux 5.4.0-124-generic (x86_64) w/ `-j 8`*
+*System: Linux 5.4.0-124-generic (x86_64), rustc 1.75.0 (82e1608df 2023-12-21) w/ `-j 8`*
 
 Note:
 - For more "Parse (release)" comparisons, see [parser_benchmarks](https://github.com/rust-bakery/parser_benchmarks)
