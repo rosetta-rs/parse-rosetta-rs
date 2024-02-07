@@ -18,6 +18,8 @@ def main():
     hostname = platform.node()
     uname = platform.uname()
     cpus = multiprocessing.cpu_count()
+    rustc = subprocess.run(["rustc", "--version"], check=True, capture_output=True, encoding="utf-8").stdout.strip()
+
     extension = ".exe" if sys.platform in ("win32", "cygwin") else ""
 
     runs_root = repo_root / "runs"
@@ -35,6 +37,7 @@ def main():
         "os_ver": uname.release,
         "arch": uname.machine,
         "cpus": cpus,
+        "rustc": rustc,
         "libs": {},
     }
 

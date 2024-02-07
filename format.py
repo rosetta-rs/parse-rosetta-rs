@@ -34,7 +34,7 @@ def main():
         ]
         print(" | ".join(row))
     print()
-    print(f"*System: {data['os']} {data['os_ver']} ({data['arch']}) w/ `-j {data['cpus']}`*")
+    print(f"*System: {data['os']} {data['os_ver']} ({data['arch']}), {data.get('rustc', '')} w/ `-j {data['cpus']}`*")
 
 
 def fmt_time(case, bench):
