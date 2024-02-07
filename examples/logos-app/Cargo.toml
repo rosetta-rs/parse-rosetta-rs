@@ -8,5 +8,5 @@ name = "logos-app"
 path = "app.rs"
 
 [dependencies]
-ariadne = "0.4.0"
 logos = "0.13.0"
+ariadne = "0.4.0"
