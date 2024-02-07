@@ -1,10 +1,10 @@
 [package]
-name = "serde-json-app"
+name = "serde_json-app"
 version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "serde-json-app"
+name = "serde_json-app"
 path = "app.rs"
 
 [dependencies]
