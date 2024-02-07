@@ -15,7 +15,14 @@ fn main() {
         .map_err(|e| e.to_string())
     {
         Ok(json) => {
-            println!("{:#?}", json);
+            #[cfg(debug_assertions)]
+            {
+                println!("{:#?}", json);
+            }
+            #[cfg(not(debug_assertions))]
+            {
+                std::hint::black_box(json);
+            }
         }
         Err(err) => {
             eprintln!("{}", err);

@@ -8,7 +8,14 @@ fn main() {
 
     match parser::json().parse(src.as_bytes()) {
         Ok(json) => {
-            println!("{:#?}", json);
+            #[cfg(debug_assertions)]
+            {
+                println!("{:#?}", json);
+            }
+            #[cfg(not(debug_assertions))]
+            {
+                std::hint::black_box(json);
+            }
         }
         Err(err) => {
             eprintln!("{}", err);
