@@ -1,0 +1,11 @@
+[package]
+name = "serde-json-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "serde-json-app"
+path = "app.rs"
+
+[dependencies]
+serde_json = "1.0.113"
