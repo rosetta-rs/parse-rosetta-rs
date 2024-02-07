@@ -14,7 +14,14 @@ fn main() {
 
     match json::ValueParser::new().parse(&src) {
         Ok(json) => {
-            println!("{:#?}", json);
+            #[cfg(debug_assertions)]
+            {
+                println!("{:#?}", json);
+            }
+            #[cfg(not(debug_assertions))]
+            {
+                std::hint::black_box(json);
+            }
         }
         Err(err) => {
             eprintln!("{}", err);
