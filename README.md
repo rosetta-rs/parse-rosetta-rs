@@ -14,7 +14,7 @@ This repo tries to assess Rust parsing performance.
 | [yap]     | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | ?               |
 
 Formerly, we compared:
-- [peg]: invalid parser
+- [peg]: invalid example
 - [pom]: lack of notoriety
 
 # Results
