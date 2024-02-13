@@ -21,18 +21,18 @@ Formerly, we compared:
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 203ms | 4ms | - | -
-chumsky | 662 KiB | 6s | 365ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
-logos | 171 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
-combine | 184 KiB | 4s | 41ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-lalrpop | 1,619 KiB | 11s | 886ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
-nom | 100 KiB | 2s | 65ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
-pest | 104 KiB | 4s | 51ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.6
-serde_json | 42 KiB | 3s | 13ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.113
-winnow | 74 KiB | 2s | 23ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.5.36
-yap | 59 KiB | 471ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
+null | 0 KiB | 205ms | 4ms | - | -
+chumsky | 665 KiB | 6s | 367ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
+logos | 170 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.0
+combine | 204 KiB | 4s | 49ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+lalrpop | 1,615 KiB | 11s | 880ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
+nom | 99 KiB | 2s | 66ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
+pest | 104 KiB | 4s | 48ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.6
+serde_json | 41 KiB | 3s | 13ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.113
+winnow | 73 KiB | 2s | 22ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.6.0
+yap | 59 KiB | 473ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
 
-*System: Linux 5.4.0-124-generic (x86_64), rustc 1.75.0 (82e1608df 2023-12-21) w/ `-j 8`*
+*System: Linux 5.4.0-124-generic (x86_64), rustc 1.76.0 (07dca489a 2024-02-04) w/ `-j 8`*
 
 Note:
 - For more "Parse (release)" comparisons, see [parser_benchmarks](https://github.com/rust-bakery/parser_benchmarks)
