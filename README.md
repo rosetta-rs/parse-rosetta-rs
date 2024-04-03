@@ -9,12 +9,12 @@ This repo tries to assess Rust parsing performance.
 | [lalrpop] | LR(1)       | in grammar  | build script       | `&str`                 | No                  | Yes                 | No              |
 | [logos]   | lexer       | in source   | proc macro         | `&str`, `&[u8]`        | ?                   | ?                   | ?               |
 | [nom]     | combinators | in source   | library            | `&[u8]`, custom        | No                  | Yes                 | Yes             |
+| [peg]     | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
 | [pest]    | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
 | [winnow]  | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | Yes             |
 | [yap]     | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | ?               |
 
 Formerly, we compared:
-- [peg]: invalid example
 - [pom]: lack of notoriety
 
 # Results
@@ -27,6 +27,7 @@ logos | 170 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr
 combine | 204 KiB | 4s | 49ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
 lalrpop | 1,615 KiB | 11s | 880ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.0
 nom | 99 KiB | 2s | 66ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
+peg | 21 KiB | 2s | **invalid** | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.2
 pest | 104 KiB | 4s | 48ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.6
 serde_json | 41 KiB | 3s | 13ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.113
 winnow | 73 KiB | 2s | 22ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.6.0
