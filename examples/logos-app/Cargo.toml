@@ -9,4 +9,4 @@ path = "app.rs"
 
 [dependencies]
 logos = "0.14.0"
-ariadne = "0.4.0"
+ariadne = "0.4.1"

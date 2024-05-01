@@ -8,4 +8,4 @@ name = "serde_json-app"
 path = "app.rs"
 
 [dependencies]
-serde_json = "1.0.114"
+serde_json = "1.0.116"

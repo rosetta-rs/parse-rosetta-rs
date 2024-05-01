@@ -8,4 +8,4 @@ name = "winnow-app"
 path = "app.rs"
 
 [dependencies]
-winnow = "0.6.5"
+winnow = "0.6.7"
