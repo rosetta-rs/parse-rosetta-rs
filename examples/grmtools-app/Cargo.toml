@@ -1,0 +1,18 @@
+[package]
+name = "grmtools-app"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "grmtools-app"
+path = "app.rs"
+
+[build-dependencies]
+cfgrammar = "0.13"
+lrlex = "0.13"
+lrpar = "0.13"
+
+[dependencies]
+cfgrammar = "0.13"
+lrlex = "0.13"
+lrpar = "0.13"
