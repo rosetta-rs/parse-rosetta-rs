@@ -1,6 +1,6 @@
 [package]
 name = "yap-app"
-edition = "2021"
+edition.workspace = true
 
 [[bin]]
 name = "yap-app"

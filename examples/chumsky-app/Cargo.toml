@@ -1,6 +1,6 @@
 [package]
 name = "chumsky-app"
-edition = "2021"
+edition.workspace = true
 
 [[bin]]
 name = "chumsky-app"

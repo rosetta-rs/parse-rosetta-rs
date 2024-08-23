@@ -1,6 +1,6 @@
 [package]
 name = "nom-app"
-edition = "2021"
+edition.workspace = true
 
 [[bin]]
 name = "nom-app"

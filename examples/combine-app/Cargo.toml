@@ -1,6 +1,6 @@
 [package]
 name = "combine-app"
-edition = "2021"
+edition.workspace = true
 
 [[bin]]
 name = "combine-app"

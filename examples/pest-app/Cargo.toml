@@ -1,6 +1,6 @@
 [package]
 name = "pest-app"
-edition = "2021"
+edition.workspace = true
 
 [[bin]]
 name = "pest-app"

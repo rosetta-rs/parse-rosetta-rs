@@ -1,6 +1,6 @@
 [package]
 name = "null-app"
-edition = "2021"
+edition.workspace = true
 
 [[bin]]
 name = "null-app"

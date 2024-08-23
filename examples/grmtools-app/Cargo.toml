@@ -1,6 +1,6 @@
 [package]
 name = "grmtools-app"
-edition = "2021"
+edition.workspace = true
 
 [[bin]]
 name = "grmtools-app"
