@@ -384,7 +384,7 @@ dependencies = [
  "bit-set",
  "ena",
  "itertools",
- "lalrpop-util 0.21.0",
+ "lalrpop-util",
  "petgraph",
  "pico-args",
  "regex",
@@ -401,16 +401,7 @@ name = "lalrpop-app"
 version = "0.0.0"
 dependencies = [
  "lalrpop",
- "lalrpop-util 0.20.2",
-]
-
-[[package]]
-name = "lalrpop-util"
-version = "0.20.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "507460a910eb7b32ee961886ff48539633b788a36b65692b95f225b844c82553"
-dependencies = [
- "regex-automata 0.4.6",
+ "lalrpop-util",
 ]
 
 [[package]]
