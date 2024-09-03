@@ -10,4 +10,4 @@ path = "app.rs"
 lalrpop = { version = "0.21", features = ["lexer", "unicode"] }
 
 [dependencies]
-lalrpop-util = { version = "0.20", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.21", features = ["lexer", "unicode"] }
