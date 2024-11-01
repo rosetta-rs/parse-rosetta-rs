@@ -7,7 +7,7 @@ name = "lalrpop-app"
 path = "app.rs"
 
 [build-dependencies]
-lalrpop = { version = "0.21", features = ["lexer", "unicode"] }
+lalrpop = { version = "0.22", features = ["lexer", "unicode"] }
 
 [dependencies]
 lalrpop-util = { version = "0.21", features = ["lexer", "unicode"] }
