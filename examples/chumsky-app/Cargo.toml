@@ -7,5 +7,4 @@ name = "chumsky-app"
 path = "app.rs"
 
 [dependencies]
-ariadne = "0.4.1"
 chumsky = "0.9.3"
