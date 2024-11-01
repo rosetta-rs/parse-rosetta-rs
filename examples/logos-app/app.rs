@@ -21,22 +21,7 @@ fn main() {
             }
         }
         Err((msg, span)) => {
-            use ariadne::{ColorGenerator, Label, Report, ReportKind, Source};
-
-            let mut colors = ColorGenerator::new();
-
-            let a = colors.next();
-
-            Report::build(ReportKind::Error, &filename, 12)
-                .with_message(format!("Invalid JSON"))
-                .with_label(
-                    Label::new((&filename, span))
-                        .with_message(msg)
-                        .with_color(a),
-                )
-                .finish()
-                .eprint((&filename, Source::from(src)))
-                .unwrap();
+            eprintln!("{filename}:{span:?}: {msg}");
         }
     }
 }
