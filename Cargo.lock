@@ -127,9 +127,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "cfgrammar"
-version = "0.13.7"
+version = "0.13.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6026d8cd82ada8bbcfe337805dd1eb6afdc9e80fa4d57e977b3a36315e0c5525"
+checksum = "6d621f687a04efa1f269f1cd13d8cfea9660852bdb3d1cd2c3c9fb6fdd34daf2"
 dependencies = [
  "indexmap",
  "lazy_static",
@@ -450,9 +450,9 @@ dependencies = [
 
 [[package]]
 name = "lrlex"
-version = "0.13.7"
+version = "0.13.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "05863fdac293d1bc74f0cd91512933a5ab67e0cb607dc78ac4984be089456b49"
+checksum = "6fe1e8741f737ba4b6d781f716051df6375ff0488d57ee23822a2cdba1c3dc7a"
 dependencies = [
  "cfgrammar",
  "getopts",
@@ -468,9 +468,9 @@ dependencies = [
 
 [[package]]
 name = "lrpar"
-version = "0.13.7"
+version = "0.13.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b1ecae55cf667db308d3555e22b20bcc28eaeca0c95a09b37171673be157c71"
+checksum = "19c61bcff4c1dd2deb9567ea868237828a8cd179c3f64106f6726656e372421d"
 dependencies = [
  "bincode",
  "cactus",
@@ -848,9 +848,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.132"
+version = "1.0.133"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d726bfaff4b320266d395898905d0eba0345aae23b54aee3a737e260fd46db03"
+checksum = "c7fceb2473b9166b2294ef05efcb65a3db80803f0b03ef86a5fc88a2b85ee377"
 dependencies = [
  "itoa",
  "memchr",
