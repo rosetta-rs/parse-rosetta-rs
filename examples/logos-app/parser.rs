@@ -1,28 +1,28 @@
-use std::collections::HashMap;
+//! JSON parser written in Rust, using Logos.
+//!
+//! If the file is a valid JSON value, it will be printed
+//! to the terminal using the debug format.
+//!
+//! Otherwise, an error will be printed with its location.
+//!
+//! Usage:
+//!     cargo run --example json <path/to/file>
+//!
+//! Example:
+//!     cargo run --example json examples/example.json
 
+/* ANCHOR: all */
 use logos::{Lexer, Logos, Span};
+
+use std::collections::HashMap;
+use std::env;
+use std::fs;
 
 type Error = (String, Span);
 
 type Result<T> = std::result::Result<T, Error>;
 
-/// Represent any valid JSON value.
-#[derive(Debug)]
-pub enum Value {
-    /// null.
-    Null,
-    /// true or false.
-    Bool(bool),
-    /// Any floating point number.
-    Number(f64),
-    /// Any quoted string.
-    String(String),
-    /// An array of values
-    Array(Vec<Value>),
-    /// An dictionary mapping keys and values.
-    Object(HashMap<String, Value>),
-}
-
+/* ANCHOR: tokens */
 /// All meaningful JSON tokens.
 ///
 /// > NOTE: regexes for [`Token::Number`] and [`Token::String`] may not
@@ -62,9 +62,30 @@ pub enum Token {
     #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#, |lex| lex.slice().to_owned())]
     String(String),
 }
+/* ANCHOR_END: tokens */
 
+/* ANCHOR: values */
+/// Represent any valid JSON value.
+#[derive(Debug)]
+pub enum Value {
+    /// null.
+    Null,
+    /// true or false.
+    Bool(bool),
+    /// Any floating point number.
+    Number(f64),
+    /// Any quoted string.
+    String(String),
+    /// An array of values
+    Array(Vec<Value>),
+    /// An dictionary mapping keys and values.
+    Object(HashMap<String, Value>),
+}
+/* ANCHOR_END: values */
+
+/* ANCHOR: value */
 /// Parse a token stream into a JSON value.
-pub fn parse_value<'source>(lexer: &mut Lexer<'source, Token>) -> Result<Value> {
+pub fn parse_value(lexer: &mut Lexer<'_, Token>) -> Result<Value> {
     if let Some(token) = lexer.next() {
         match token {
             Ok(Token::Bool(b)) => Ok(Value::Bool(b)),
@@ -82,12 +103,14 @@ pub fn parse_value<'source>(lexer: &mut Lexer<'source, Token>) -> Result<Value> 
         Err(("empty values are not allowed".to_owned(), lexer.span()))
     }
 }
+/* ANCHOR_END: value */
 
+/* ANCHOR: array */
 /// Parse a token stream into an array and return when
 /// a valid terminator is found.
 ///
 /// > NOTE: we assume '[' was consumed.
-fn parse_array<'source>(lexer: &mut Lexer<'source, Token>) -> Result<Value> {
+fn parse_array(lexer: &mut Lexer<'_, Token>) -> Result<Value> {
     let mut array = Vec::new();
     let span = lexer.span();
     let mut awaits_comma = false;
@@ -134,12 +157,14 @@ fn parse_array<'source>(lexer: &mut Lexer<'source, Token>) -> Result<Value> {
     }
     Err(("unmatched opening bracket defined here".to_owned(), span))
 }
+/* ANCHOR_END: array */
 
+/* ANCHOR: object */
 /// Parse a token stream into an object and return when
 /// a valid terminator is found.
 ///
 /// > NOTE: we assume '{' was consumed.
-fn parse_object<'source>(lexer: &mut Lexer<'source, Token>) -> Result<Value> {
+fn parse_object(lexer: &mut Lexer<'_, Token>) -> Result<Value> {
     let mut map = HashMap::new();
     let span = lexer.span();
     let mut awaits_comma = false;
@@ -174,3 +199,4 @@ fn parse_object<'source>(lexer: &mut Lexer<'source, Token>) -> Result<Value> {
     }
     Err(("unmatched opening brace defined here".to_owned(), span))
 }
+/* ANCHOR_END: object */
