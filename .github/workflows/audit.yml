@@ -17,6 +17,10 @@ env:
   CARGO_TERM_COLOR: always
   CLICOLOR: 1
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 jobs:
   security_audit:
     permissions:
@@ -40,7 +44,7 @@ jobs:
     strategy:
       matrix:
         checks:
-          - bans sources
+          - bans licenses sources
     steps:
     - uses: actions/checkout@v4
     - uses: EmbarkStudios/cargo-deny-action@v2
