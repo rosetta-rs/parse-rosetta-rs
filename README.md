@@ -22,20 +22,20 @@ Formerly, we compared:
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 202ms | 4ms | - | -
-chumsky | 627 KiB | 7s | 361ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.1
-logos | 172 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr/ariadne) | v0.4.1
-grmtools | 2,488 KiB | 14s | 163ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.13.7
-combine | 178 KiB | 4s | 48ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-lalrpop | 1,474 KiB | 12s | 35ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.20.2
-nom | 89 KiB | 2s | 68ms | ![Download count](https://img.shields.io/crates/dr/nom) | v7.1.3
-peg | 71 KiB | 2s | 22ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.3
-pest | 120 KiB | 4s | 53ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.10
-serde_json | 46 KiB | 3s | 13ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.119
-winnow | 71 KiB | 2s | 24ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.6.13
-yap | 55 KiB | 479ms | 32ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
+null | 0 KiB | 198ms | 4ms | - | -
+grmtools | 2,526 KiB | 13s | 162ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.13.8
+chumsky | 562 KiB | 6s | 331ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.9.3
+combine | 184 KiB | 5s | 50ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+lalrpop | 1,496 KiB | 13s | 36ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.22.0
+logos | 81 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.15.0
+nom | 98 KiB | 3s | 60ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
+peg | 82 KiB | 2s | 21ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.4
+pest | 130 KiB | 4s | 54ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.15
+serde_json | 55 KiB | 3s | 14ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.134
+winnow | 80 KiB | 2s | 28ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.6.21
+yap | 56 KiB | 450ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
 
-*System: Linux 5.4.0-170-generic (x86_64), rustc 1.79.0 (129f3b996 2024-06-10) w/ `-j 8`*
+*System: Linux 5.4.0-170-generic (x86_64), rustc 1.84.0 (9fc6b4312 2025-01-07) w/ `-j 8`*
 
 Note:
 - For more "Parse (release)" comparisons, see [parser_benchmarks](https://github.com/rust-bakery/parser_benchmarks)
