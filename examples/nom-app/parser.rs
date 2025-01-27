@@ -22,33 +22,59 @@ pub enum JsonValue {
     Object(HashMap<String, JsonValue>),
 }
 
-pub fn root<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
+fn sp<'a, E: ParseError<&'a str>>(i: &'a str) -> IResult<&'a str, &'a str, E> {
+    let chars = " \t\r\n";
+
+    take_while(move |c| chars.contains(c))(i)
+}
+
+fn parse_str<'a, E: ParseError<&'a str>>(i: &'a str) -> IResult<&'a str, &'a str, E> {
+    escaped(alphanumeric, '\\', one_of("\"n\\"))(i)
+}
+
+fn boolean<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, bool, E> {
+    let parse_true = value(true, tag("true"));
+
+    let parse_false = value(false, tag("false"));
+
+    alt((parse_true, parse_false))(input)
+}
+
+fn null<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, (), E> {
+    value((), tag("null"))(input)
+}
+
+fn string<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
     i: &'a str,
-) -> IResult<&'a str, JsonValue, E> {
-    delimited(
-        sp,
-        alt((
-            map(hash, JsonValue::Object),
-            map(array, JsonValue::Array),
-            map(null, |_| JsonValue::Null),
-        )),
-        opt(sp),
+) -> IResult<&'a str, &'a str, E> {
+    context(
+        "string",
+        preceded(char('\"'), cut(terminated(parse_str, char('\"')))),
     )(i)
 }
 
-fn json_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
+fn array<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
     i: &'a str,
-) -> IResult<&'a str, JsonValue, E> {
-    preceded(
-        sp,
-        alt((
-            map(hash, JsonValue::Object),
-            map(array, JsonValue::Array),
-            map(string, |s| JsonValue::Str(String::from(s))),
-            map(double, JsonValue::Num),
-            map(boolean, JsonValue::Boolean),
-            map(null, |_| JsonValue::Null),
-        )),
+) -> IResult<&'a str, Vec<JsonValue>, E> {
+    context(
+        "array",
+        preceded(
+            char('['),
+            cut(terminated(
+                separated_list0(preceded(sp, char(',')), json_value),
+                preceded(sp, char(']')),
+            )),
+        ),
+    )(i)
+}
+
+fn key_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
+    i: &'a str,
+) -> IResult<&'a str, (&'a str, JsonValue), E> {
+    separated_pair(
+        preceded(sp, string),
+        cut(preceded(sp, char(':'))),
+        json_value,
     )(i)
 }
 
@@ -75,58 +101,32 @@ fn hash<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
     )(i)
 }
 
-fn key_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
+fn json_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
     i: &'a str,
-) -> IResult<&'a str, (&'a str, JsonValue), E> {
-    separated_pair(
-        preceded(sp, string),
-        cut(preceded(sp, char(':'))),
-        json_value,
+) -> IResult<&'a str, JsonValue, E> {
+    preceded(
+        sp,
+        alt((
+            map(hash, JsonValue::Object),
+            map(array, JsonValue::Array),
+            map(string, |s| JsonValue::Str(String::from(s))),
+            map(double, JsonValue::Num),
+            map(boolean, JsonValue::Boolean),
+            map(null, |_| JsonValue::Null),
+        )),
     )(i)
 }
 
-fn array<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
+pub fn root<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
     i: &'a str,
-) -> IResult<&'a str, Vec<JsonValue>, E> {
-    context(
-        "array",
-        preceded(
-            char('['),
-            cut(terminated(
-                separated_list0(preceded(sp, char(',')), json_value),
-                preceded(sp, char(']')),
-            )),
-        ),
-    )(i)
-}
-
-fn boolean<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, bool, E> {
-    let parse_true = value(true, tag("true"));
-
-    let parse_false = value(false, tag("false"));
-
-    alt((parse_true, parse_false))(input)
-}
-
-fn null<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, (), E> {
-    value((), tag("null"))(input)
-}
-
-fn parse_str<'a, E: ParseError<&'a str>>(i: &'a str) -> IResult<&'a str, &'a str, E> {
-    escaped(alphanumeric, '\\', one_of("\"n\\"))(i)
-}
-
-fn sp<'a, E: ParseError<&'a str>>(i: &'a str) -> IResult<&'a str, &'a str, E> {
-    let chars = " \t\r\n";
-
-    take_while(move |c| chars.contains(c))(i)
-}
-
-fn string<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
-    i: &'a str,
-) -> IResult<&'a str, &'a str, E> {
-    context(
-        "string",
-        preceded(char('\"'), cut(terminated(parse_str, char('\"')))),
+) -> IResult<&'a str, JsonValue, E> {
+    delimited(
+        sp,
+        alt((
+            map(hash, JsonValue::Object),
+            map(array, JsonValue::Array),
+            map(null, |_| JsonValue::Null),
+        )),
+        opt(sp),
     )(i)
 }
