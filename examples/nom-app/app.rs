@@ -2,9 +2,9 @@ mod parser;
 
 use std::{env, fs};
 
-use nom::error::convert_error;
-use nom::error::VerboseError;
 use nom::Err;
+use nom_language::error::convert_error;
+use nom_language::error::VerboseError;
 
 fn main() {
     let src = fs::read_to_string(env::args().nth(1).expect("Expected file argument"))

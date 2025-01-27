@@ -7,7 +7,7 @@ use nom::{
     multi::separated_list0,
     number::complete::double,
     sequence::{delimited, preceded, separated_pair, terminated},
-    IResult,
+    IResult, Parser,
 };
 use std::collections::HashMap;
 use std::str;
@@ -37,11 +37,11 @@ fn boolean<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, bool,
 
     let parse_false = value(false, tag("false"));
 
-    alt((parse_true, parse_false))(input)
+    alt((parse_true, parse_false)).parse(input)
 }
 
 fn null<'a, E: ParseError<&'a str>>(input: &'a str) -> IResult<&'a str, (), E> {
-    value((), tag("null"))(input)
+    value((), tag("null")).parse(input)
 }
 
 fn string<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
@@ -50,7 +50,8 @@ fn string<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
     context(
         "string",
         preceded(char('\"'), cut(terminated(parse_str, char('\"')))),
-    )(i)
+    )
+    .parse(i)
 }
 
 fn array<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
@@ -65,7 +66,8 @@ fn array<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
                 preceded(sp, char(']')),
             )),
         ),
-    )(i)
+    )
+    .parse(i)
 }
 
 fn key_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
@@ -75,7 +77,8 @@ fn key_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
         preceded(sp, string),
         cut(preceded(sp, char(':'))),
         json_value,
-    )(i)
+    )
+    .parse(i)
 }
 
 fn hash<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
@@ -98,7 +101,8 @@ fn hash<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
                 preceded(sp, char('}')),
             )),
         ),
-    )(i)
+    )
+    .parse(i)
 }
 
 fn json_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
@@ -114,7 +118,8 @@ fn json_value<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
             map(boolean, JsonValue::Boolean),
             map(null, |_| JsonValue::Null),
         )),
-    )(i)
+    )
+    .parse(i)
 }
 
 pub fn root<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
@@ -128,5 +133,6 @@ pub fn root<'a, E: ParseError<&'a str> + ContextError<&'a str>>(
             map(null, |_| JsonValue::Null),
         )),
         opt(sp),
-    )(i)
+    )
+    .parse(i)
 }
