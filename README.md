@@ -2,18 +2,18 @@
 
 This repo tries to assess Rust parsing performance.
 
-| crate      | parser type | action code | integration        | input type             | precedence climbing | parameterized rules | streaming input |
-|------------|-------------|-------------|--------------------|------------------------|---------------------|---------------------|-----------------|
-| [chumsky]  | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [combine]  | combinators | in source   | library            | `&str`                 | ?                   | ?                   | ?               |
-| [grmtools] | CFG         | in grammar  | library            | ?                      | ?                   | ?                   | ?               |
-| [lalrpop]  | LR(1)       | in grammar  | build script       | `&str`                 | No                  | Yes                 | No              |
-| [logos]    | lexer       | in source   | proc macro         | `&str`, `&[u8]`        | ?                   | ?                   | ?               |
-| [nom]      | combinators | in source   | library            | `&[u8]`, custom        | No                  | Yes                 | Yes             |
-| [peg]      | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom | Yes                 | Yes                 | No              |
-| [pest]     | PEG         | external    | proc macro (file)  | `&str`                 | Yes                 | No                  | No              |
-| [winnow]   | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | Yes             |
-| [yap]      | combinators | in source   | library            | `&str`, `&[T]`, custom | No                  | Yes                 | ?               |
+| crate      | parser type | action code | integration        | input type              | precedence climbing | parameterized rules | streaming input |
+|------------|-------------|-------------|--------------------|-------------------------|---------------------|---------------------|-----------------|
+| [chumsky]  | combinators | in source   | library            | `&str`                  | ?                   | ?                   | ?               |
+| [combine]  | combinators | in source   | library            | `&str`                  | ?                   | ?                   | ?               |
+| [grmtools] | CFG         | in grammar  | library            | ?                       | ?                   | ?                   | ?               |
+| [lalrpop]  | LR(1)       | in grammar  | build script       | `&str`                  | No                  | Yes                 | No              |
+| [logos]    | lexer       | in source   | proc macro         | `&str`, `&[u8]`         | ?                   | ?                   | ?               |
+| [nom]      | combinators | in source   | library            | `&str`, `&[u8]`, custom | No                  | Yes                 | Yes             |
+| [peg]      | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | Yes                 | Yes                 | No              |
+| [pest]     | PEG         | external    | proc macro (file)  | `&str`                  | Yes                 | No                  | No              |
+| [winnow]   | combinators | in source   | library            | `&str`, `&[T]`, custom  | No                  | Yes                 | Yes             |
+| [yap]      | combinators | in source   | library            | `&str`, `&[T]`, custom  | No                  | Yes                 | ?               |
 
 Formerly, we compared:
 - [pom]: lack of notoriety
