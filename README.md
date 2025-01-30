@@ -22,18 +22,18 @@ Formerly, we compared:
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 198ms | 4ms | - | -
-grmtools | 2,526 KiB | 13s | 162ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.13.8
+null | 0 KiB | 199ms | 4ms | - | -
+grmtools | 2,526 KiB | 13s | 163ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.13.8
 chumsky | 562 KiB | 6s | 331ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.9.3
-combine | 184 KiB | 5s | 50ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-lalrpop | 1,496 KiB | 13s | 36ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.22.0
+combine | 184 KiB | 4s | 47ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+lalrpop | 1,496 KiB | 13s | 37ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.22.0
 logos | 81 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.15.0
 nom | 98 KiB | 3s | 60ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
 peg | 82 KiB | 2s | 21ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.4
-pest | 130 KiB | 4s | 54ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.15
+pest | 130 KiB | 4s | 55ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.15
 serde_json | 55 KiB | 3s | 14ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.134
-winnow | 80 KiB | 2s | 28ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.6.21
-yap | 56 KiB | 450ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
+winnow | 76 KiB | 2s | 28ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.7.0
+yap | 56 KiB | 456ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
 
 *System: Linux 5.4.0-170-generic (x86_64), rustc 1.84.0 (9fc6b4312 2025-01-07) w/ `-j 8`*
 
