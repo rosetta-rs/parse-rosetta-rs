@@ -8,6 +8,7 @@ This repo tries to assess Rust parsing performance.
 | [combine]  | combinators | in source   | library            | `&str`                  | ?                   | ?                   | ?               |
 | [grmtools] | CFG         | in grammar  | library            | ?                       | ?                   | ?                   | ?               |
 | [lalrpop]  | LR(1)       | in grammar  | build script       | `&str`                  | No                  | Yes                 | No              |
+| [lelwel]   | LL(1)       | in grammar  | build script       | `&str`                  | Yes                 | Yes                 | No              |
 | [logos]    | lexer       | in source   | proc macro         | `&str`, `&[u8]`         | ?                   | ?                   | ?               |
 | [nom]      | combinators | in source   | library            | `&str`, `&[u8]`, custom | No                  | Yes                 | Yes             |
 | [peg]      | PEG         | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | Yes                 | Yes                 | No              |
@@ -22,20 +23,21 @@ Formerly, we compared:
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 199ms | 4ms | - | -
-grmtools | 2,526 KiB | 13s | 163ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.13.8
-chumsky | 562 KiB | 6s | 331ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.9.3
+null | 0 KiB | 183ms | 4ms | - | -
+grmtools | 2,573 KiB | 12s | 166ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.13.10
+chumsky | 561 KiB | 6s | 334ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.9.3
+lelwel | 152 KiB | 4s | 10ms | ![Download count](https://img.shields.io/crates/dr/codespan-reporting) | v0.12.0
 combine | 184 KiB | 4s | 47ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-lalrpop | 1,496 KiB | 13s | 37ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.22.0
-logos | 81 KiB | 5s | 17ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.15.0
-nom | 98 KiB | 3s | 60ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
-peg | 82 KiB | 2s | 21ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.4
-pest | 130 KiB | 4s | 55ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.15
-serde_json | 55 KiB | 3s | 14ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.134
-winnow | 76 KiB | 2s | 28ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.7.0
-yap | 56 KiB | 456ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
+lalrpop | 1,526 KiB | 12s | 37ms | ![Download count](https://img.shields.io/crates/dr/lalrpop-util) | v0.22.1
+logos | 90 KiB | 5s | 20ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.15.0
+nom | 98 KiB | 3s | 59ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
+peg | 85 KiB | 2s | 21ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.4
+pest | 130 KiB | 4s | 54ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.7.15
+serde_json | 55 KiB | 3s | 14ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.139
+winnow | 79 KiB | 2s | 27ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.7.3
+yap | 65 KiB | 433ms | 31ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
 
-*System: Linux 5.4.0-170-generic (x86_64), rustc 1.84.0 (9fc6b4312 2025-01-07) w/ `-j 8`*
+*System: Linux 5.4.0-170-generic (x86_64), rustc 1.85.1 (4eb161250 2025-03-15) w/ `-j 8`*
 
 Note:
 - For more "Parse (release)" comparisons, see [parser_benchmarks](https://github.com/rust-bakery/parser_benchmarks)
@@ -51,6 +53,7 @@ $ ./format.py
 [chumsky]: https://github.com/zesterer/chumsky
 [combine]: https://github.com/Marwes/combine
 [lalrpop]: https://github.com/lalrpop/lalrpop
+[lelwel]: https://github.com/lalrpop/lelwel
 [logos]: https://github.com/maciejhirsz/logos
 [nom]: https://github.com/geal/nom
 [peg]: https://github.com/kevinmehall/rust-peg
