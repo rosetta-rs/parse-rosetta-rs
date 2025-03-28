@@ -485,6 +485,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "lelwel-app"
+version = "0.0.0"
+dependencies = [
+ "codespan-reporting 0.12.0",
+ "lelwel",
+ "logos",
+ "snapbox",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.158"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -710,16 +720,6 @@ dependencies = [
  "redox_syscall 0.3.5",
  "smallvec",
  "windows-targets 0.48.5",
-]
-
-[[package]]
-name = "parol-app"
-version = "0.0.0"
-dependencies = [
- "codespan-reporting 0.12.0",
- "lelwel",
- "logos",
- "snapbox",
 ]
 
 [[package]]

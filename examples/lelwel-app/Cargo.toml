@@ -1,9 +1,9 @@
 [package]
-name = "parol-app"
+name = "lelwel-app"
 edition.workspace = true
 
 [[bin]]
-name = "parol-app"
+name = "lelwel-app"
 path = "app.rs"
 
 [dependencies]
