@@ -54,7 +54,7 @@ $ ./format.py
 [chumsky]: https://github.com/zesterer/chumsky
 [combine]: https://github.com/Marwes/combine
 [lalrpop]: https://github.com/lalrpop/lalrpop
-[lelwel]: https://github.com/lalrpop/lelwel
+[lelwel]: https://github.com/0x2a-42/lelwel
 [logos]: https://github.com/maciejhirsz/logos
 [nom]: https://github.com/geal/nom
 [peg]: https://github.com/kevinmehall/rust-peg
