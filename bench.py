@@ -44,7 +44,8 @@ def main():
     with tempfile.TemporaryDirectory() as tmpdir:
         for example_path in sorted((repo_root / "examples").glob("*-app")):
             manifest_path = example_path / "Cargo.toml"
-            metadata = harvest_metadata(manifest_path)
+            name = example_path.name
+            metadata = harvest_metadata(manifest_path, name)
 
             build_report_path = pathlib.Path(tmpdir) / f"{example_path.name}-build.json"
             if True:
@@ -114,14 +115,22 @@ def main():
     print(raw_run_path)
 
 
-def harvest_metadata(manifest_path):
+def harvest_metadata(manifest_path, name):
     p = subprocess.run(["cargo", "tree"], check=True, cwd=manifest_path.parent, capture_output=True, encoding="utf-8")
     lines = p.stdout.strip().splitlines()
     app_line = lines.pop(0)
     if lines:
         self_line = lines.pop(0)
-        name, version = _extract_line(self_line)
-        unique = sorted(set(_extract_line(line) for line in lines if "(*)" not in line and "[build-dependencies]" not in line and "[dev-dependencies" not in line))
+        first_name, _ = _extract_line(self_line)
+        unique = dict(
+            _extract_line(line)
+            for line in lines
+            if "(*)" not in line and "[build-dependencies]" not in line and "[dev-dependencies" not in line)
+        )
+        version = unique.get(name)
+        if version is None:
+            name = first_name
+            version = unique.get(first_name)
     else:
         name = None
         version = None
