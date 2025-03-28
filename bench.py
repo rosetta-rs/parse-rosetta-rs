@@ -121,7 +121,7 @@ def harvest_metadata(manifest_path):
     if lines:
         self_line = lines.pop(0)
         name, version = _extract_line(self_line)
-        unique = sorted(set(_extract_line(line) for line in lines if "(*)" not in line and "[build-dependencies]" not in line))
+        unique = sorted(set(_extract_line(line) for line in lines if "(*)" not in line and "[build-dependencies]" not in line and "[dev-dependencies" not in line))
     else:
         name = None
         version = None
