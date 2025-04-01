@@ -16,94 +16,53 @@ pub enum Json {
     Object(HashMap<String, Json>),
 }
 
-pub fn parser<'a>() -> impl Parser<'a, &'a str, Json, extra::Err<Rich<'a, char>>> {
+pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
     recursive(|value| {
-        let digits = text::digits(10).to_slice();
+        let digits = one_of('0'..='9').repeated();
 
-        let frac = just('.').then(digits);
+        let int = one_of('1'..='9')
+            .then(one_of('0'..='9').repeated())
+            .ignored()
+            .or(just('0').ignored())
+            .ignored();
 
-        let exp = just('e')
-            .or(just('E'))
+        let frac = just('.').then(digits.clone());
+
+        let exp = one_of("eE")
             .then(one_of("+-").or_not())
-            .then(digits);
+            .then(digits.clone());
 
         let number = just('-')
             .or_not()
-            .then(text::int(10))
+            .then(int)
             .then(frac.or_not())
             .then(exp.or_not())
             .to_slice()
-            .map(|s: &str| s.parse().unwrap())
-            .boxed();
+            .map(|s: &str| s.parse().unwrap());
 
-        let escape = just('\\')
-            .then(choice((
-                just('\\'),
-                just('/'),
-                just('"'),
-                just('b').to('\x08'),
-                just('f').to('\x0C'),
-                just('n').to('\n'),
-                just('r').to('\r'),
-                just('t').to('\t'),
-                just('u').ignore_then(text::digits(16).exactly(4).to_slice().validate(
-                    |digits, e, emitter| {
-                        char::from_u32(u32::from_str_radix(digits, 16).unwrap()).unwrap_or_else(
-                            || {
-                                emitter.emit(Rich::custom(e.span(), "invalid unicode character"));
-                                '\u{FFFD}' // unicode replacement character
-                            },
-                        )
-                    },
-                )),
-            )))
-            .ignored()
-            .boxed();
+        let escape = just('\\').then_ignore(one_of("\\/\"bfnrt"));
 
         let string = none_of("\\\"")
-            .ignored()
             .or(escape)
             .repeated()
             .to_slice()
-            .map(ToString::to_string)
-            .delimited_by(just('"'), just('"'))
-            .boxed();
+            .map(str::to_string)
+            .delimited_by(just('"'), just('"'));
 
         let array = value
             .clone()
-            .separated_by(just(',').padded().recover_with(skip_then_retry_until(
-                any().ignored(),
-                one_of(",]").ignored(),
-            )))
-            .allow_trailing()
+            .separated_by(just(','))
             .collect()
             .padded()
-            .delimited_by(
-                just('['),
-                just(']')
-                    .ignored()
-                    .recover_with(via_parser(end()))
-                    .recover_with(skip_then_retry_until(any().ignored(), end())),
-            )
-            .boxed();
+            .delimited_by(just('['), just(']'));
 
         let member = string.clone().then_ignore(just(':').padded()).then(value);
         let object = member
             .clone()
-            .separated_by(just(',').padded().recover_with(skip_then_retry_until(
-                any().ignored(),
-                one_of(",}").ignored(),
-            )))
+            .separated_by(just(',').padded())
             .collect()
             .padded()
-            .delimited_by(
-                just('{'),
-                just('}')
-                    .ignored()
-                    .recover_with(via_parser(end()))
-                    .recover_with(skip_then_retry_until(any().ignored(), end())),
-            )
-            .boxed();
+            .delimited_by(just('{'), just('}'));
 
         choice((
             just("null").to(Json::Null),
@@ -113,22 +72,6 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json, extra::Err<Rich<'a, char>>
             string.map(Json::Str),
             array.map(Json::Array),
             object.map(Json::Object),
-        ))
-        .recover_with(via_parser(nested_delimiters(
-            '{',
-            '}',
-            [('[', ']')],
-            |_| Json::Invalid,
-        )))
-        .recover_with(via_parser(nested_delimiters(
-            '[',
-            ']',
-            [('{', '}')],
-            |_| Json::Invalid,
-        )))
-        .recover_with(skip_then_retry_until(
-            any().ignored(),
-            one_of(",]}").ignored(),
         ))
         .padded()
     })
