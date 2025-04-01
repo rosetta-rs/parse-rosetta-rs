@@ -2,20 +2,20 @@
 
 This repo tries to assess Rust parsing performance.
 
-| crate      | parser type   | action code | integration        | input type              | precedence climbing | parameterized rules | streaming input |
-|------------|---------------|-------------|--------------------|-------------------------|---------------------|---------------------|-----------------|
-| [chumsky]  | combinators   | in source   | library            | `&str`                  | ?                   | ?                   | ?               |
-| [combine]  | combinators   | in source   | library            | `&str`                  | ?                   | ?                   | ?               |
-| [grmtools] | CFG           | in grammar  | library            | ?                       | ?                   | ?                   | ?               |
-| [lalrpop]  | LR(1)         | in grammar  | build script       | `&str`                  | No                  | Yes                 | No              |
-| [lelwel]   | LL(1)         | in grammar  | build script       | `&str`                  | Yes                 | Yes                 | No              |
-| [logos]    | lexer         | in source   | proc macro         | `&str`, `&[u8]`         | ?                   | ?                   | ?               |
-| [nom]      | combinators   | in source   | library            | `&str`, `&[u8]`, custom | No                  | Yes                 | Yes             |
-| [parol]    | LL(k)/LALR(R) | in grammar  | build script       | `&str`                  | No                  | ?                   | No              |
-| [peg]      | PEG           | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | Yes                 | Yes                 | No              |
-| [pest]     | PEG           | external    | proc macro (file)  | `&str`                  | Yes                 | No                  | No              |
-| [winnow]   | combinators   | in source   | library            | `&str`, `&[T]`, custom  | No                  | Yes                 | Yes             |
-| [yap]      | combinators   | in source   | library            | `&str`, `&[T]`, custom  | No                  | Yes                 | ?               |
+| crate      | parser type   | action code | integration        | input type              | precedence             | parameterized rules | streaming input |
+|------------|---------------|-------------|--------------------|-------------------------|------------------------|---------------------|-----------------|
+| [chumsky]  | combinators   | in source   | library            | `&str`, `&[u8]`, custom | [pratt][chumsky-pratt] | Yes                 | Yes             |
+| [combine]  | combinators   | in source   | library            | `&str`                  | ?                      | ?                   | ?               |
+| [grmtools] | CFG           | in grammar  | library            | ?                       | ?                      | ?                   | ?               |
+| [lalrpop]  | LR(1)         | in grammar  | build script       | `&str`                  | none                   | Yes                 | No              |
+| [lelwel]   | LL(1)         | in grammar  | build script       | `&str`                  | pratt                  | Yes                 | No              |
+| [logos]    | lexer         | in source   | proc macro         | `&str`, `&[u8]`         | ?                      | ?                   | ?               |
+| [nom]      | combinators   | in source   | library            | `&str`, `&[u8]`, custom | [pratt][nom-pratt]     | Yes                 | Yes             |
+| [parol]    | LL(k)/LALR(R) | in grammar  | build script       | `&str`                  | none                   | ?                   | No              |
+| [peg]      | PEG           | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | climbing               | Yes                 | No              |
+| [pest]     | PEG           | external    | proc macro (file)  | `&str`                  | climbing               | No                  | No              |
+| [winnow]   | combinators   | in source   | library            | `&str`, `&[T]`, custom  | none                   | Yes                 | Yes             |
+| [yap]      | combinators   | in source   | library            | `&str`, `&[T]`, custom  | none                   | Yes                 | ?               |
 
 Formerly, we compared:
 - [pom]: lack of notoriety
@@ -53,11 +53,13 @@ $ ./format.py
 ```
 
 [chumsky]: https://github.com/zesterer/chumsky
+[chumsky-pratt]: https://docs.rs/chumsky/latest/chumsky/pratt/index.html
 [combine]: https://github.com/Marwes/combine
 [lalrpop]: https://github.com/lalrpop/lalrpop
 [lelwel]: https://github.com/0x2a-42/lelwel
 [logos]: https://github.com/maciejhirsz/logos
 [nom]: https://github.com/geal/nom
+[nom-pratt]: https://docs.rs/nom-language/latest/nom_language/precedence/fn.precedence.html
 [parol]: https://github.com/jsinger67/parol
 [peg]: https://github.com/kevinmehall/rust-peg
 [pest]: https://github.com/pest-parser/pest
