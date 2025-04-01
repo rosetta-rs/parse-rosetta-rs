@@ -7,4 +7,4 @@ name = "chumsky-app"
 path = "app.rs"
 
 [dependencies]
-chumsky = "0.9.3"
+chumsky = "0.10.0"
