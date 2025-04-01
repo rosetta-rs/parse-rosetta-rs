@@ -12,7 +12,7 @@ fn main() {
     let src = fs::read_to_string(env::args().nth(1).expect("Expected file argument"))
         .expect("Failed to read file");
 
-    let (json, errs) = parser::parser().parse_recovery(src.trim());
+    let (json, errs) = parser::parser().parse(&src).into_output_errors();
     #[cfg(debug_assertions)]
     {
         println!("{:#?}", json);
