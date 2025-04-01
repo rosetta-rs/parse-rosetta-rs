@@ -40,13 +40,25 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
             .to_slice()
             .map(|s: &str| s.parse().unwrap());
 
-        let escape = just('\\').then_ignore(one_of("\\/\"bfnrt"));
+        let escape = just('\\').then_ignore(choice((
+            just('\\'),
+            just('/'),
+            just('"'),
+            just('b').to('\x08'),
+            just('f').to('\x0C'),
+            just('n').to('\n'),
+            just('r').to('\r'),
+            just('t').to('\t'),
+            just('u').ignore_then(text::digits(16).exactly(4).to_slice().try_map(|digits, _| {
+                char::from_u32(u32::from_str_radix(digits, 16).unwrap())
+                    .ok_or_else(Default::default)
+            })),
+        )));
 
         let string = none_of("\\\"")
             .or(escape)
             .repeated()
-            .to_slice()
-            .map(str::to_string)
+            .collect()
             .delimited_by(just('"'), just('"'));
 
         let array = value
