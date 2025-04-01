@@ -18,29 +18,21 @@ pub enum Json {
 
 pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
     recursive(|value| {
-        let digits = one_of('0'..='9').repeated();
-
-        let int = one_of('1'..='9')
-            .then(one_of('0'..='9').repeated())
-            .ignored()
-            .or(just('0').ignored())
-            .ignored();
-
-        let frac = just('.').then(digits.clone());
+        let frac = just('.').then(text::digits(10));
 
         let exp = one_of("eE")
             .then(one_of("+-").or_not())
-            .then(digits.clone());
+            .then(text::digits(10));
 
         let number = just('-')
             .or_not()
-            .then(int)
+            .then(text::int(10))
             .then(frac.or_not())
             .then(exp.or_not())
             .to_slice()
             .map(|s: &str| s.parse().unwrap());
 
-        let escape = just('\\').then_ignore(choice((
+        let escape = just('\\').ignore_then(choice((
             just('\\'),
             just('/'),
             just('"'),
