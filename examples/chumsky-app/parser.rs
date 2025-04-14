@@ -18,11 +18,14 @@ pub enum Json {
 
 pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
     recursive(|value| {
-        let frac = just('.').then(text::digits(10));
+        let digits = text::digits(10).to_slice();
 
-        let exp = one_of("eE")
+        let frac = just('.').then(digits);
+
+        let exp = just('e')
+            .or(just('E'))
             .then(one_of("+-").or_not())
-            .then(text::digits(10));
+            .then(digits);
 
         let number = just('-')
             .or_not()
@@ -32,30 +35,41 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
             .to_slice()
             .map(|s: &str| s.parse().unwrap());
 
-        let escape = just('\\').ignore_then(choice((
-            just('\\'),
-            just('/'),
-            just('"'),
-            just('b').to('\x08'),
-            just('f').to('\x0C'),
-            just('n').to('\n'),
-            just('r').to('\r'),
-            just('t').to('\t'),
-            just('u').ignore_then(text::digits(16).exactly(4).to_slice().try_map(|digits, _| {
-                char::from_u32(u32::from_str_radix(digits, 16).unwrap())
-                    .ok_or_else(Default::default)
-            })),
-        )));
+        let escape = just('\\')
+            .then(choice((
+                just('\\'),
+                just('/'),
+                just('"'),
+                just('b').to('\x08'),
+                just('f').to('\x0C'),
+                just('n').to('\n'),
+                just('r').to('\r'),
+                just('t').to('\t'),
+                just('u').ignore_then(text::digits(16).exactly(4).to_slice().validate(
+                    |digits, e, emitter| {
+                        char::from_u32(u32::from_str_radix(digits, 16).unwrap()).unwrap_or_else(
+                            || {
+                                emitter.emit(Default::default());
+                                '\u{FFFD}' // unicode replacement character
+                            },
+                        )
+                    },
+                )),
+            )))
+            .ignored();
 
         let string = none_of("\\\"")
+            .ignored()
             .or(escape)
             .repeated()
-            .collect()
+            .to_slice()
+            .map(ToString::to_string)
             .delimited_by(just('"'), just('"'));
 
         let array = value
             .clone()
-            .separated_by(just(','))
+            .separated_by(just(',').padded())
+            .allow_trailing()
             .collect()
             .padded()
             .delimited_by(just('['), just(']'));
