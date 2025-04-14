@@ -16,7 +16,7 @@ pub enum Json {
     Object(HashMap<String, Json>),
 }
 
-pub fn parser<'a>() -> impl Parser<'a, &'a str, Json, extra::Err<Rich<'a, char>>> {
+pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
     recursive(|value| {
         let digits = text::digits(10).to_slice();
 
@@ -33,8 +33,7 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json, extra::Err<Rich<'a, char>>
             .then(frac.or_not())
             .then(exp.or_not())
             .to_slice()
-            .map(|s: &str| s.parse().unwrap())
-            .boxed();
+            .map(|s: &str| s.parse().unwrap());
 
         let escape = just('\\')
             .then(choice((
@@ -50,15 +49,14 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json, extra::Err<Rich<'a, char>>
                     |digits, e, emitter| {
                         char::from_u32(u32::from_str_radix(digits, 16).unwrap()).unwrap_or_else(
                             || {
-                                emitter.emit(Rich::custom(e.span(), "invalid unicode character"));
+                                emitter.emit(Default::default());
                                 '\u{FFFD}' // unicode replacement character
                             },
                         )
                     },
                 )),
             )))
-            .ignored()
-            .boxed();
+            .ignored();
 
         let string = none_of("\\\"")
             .ignored()
@@ -66,44 +64,23 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json, extra::Err<Rich<'a, char>>
             .repeated()
             .to_slice()
             .map(ToString::to_string)
-            .delimited_by(just('"'), just('"'))
-            .boxed();
+            .delimited_by(just('"'), just('"'));
 
         let array = value
             .clone()
-            .separated_by(just(',').padded().recover_with(skip_then_retry_until(
-                any().ignored(),
-                one_of(",]").ignored(),
-            )))
+            .separated_by(just(',').padded())
             .allow_trailing()
             .collect()
             .padded()
-            .delimited_by(
-                just('['),
-                just(']')
-                    .ignored()
-                    .recover_with(via_parser(end()))
-                    .recover_with(skip_then_retry_until(any().ignored(), end())),
-            )
-            .boxed();
+            .delimited_by(just('['), just(']'));
 
         let member = string.clone().then_ignore(just(':').padded()).then(value);
         let object = member
             .clone()
-            .separated_by(just(',').padded().recover_with(skip_then_retry_until(
-                any().ignored(),
-                one_of(",}").ignored(),
-            )))
+            .separated_by(just(',').padded())
             .collect()
             .padded()
-            .delimited_by(
-                just('{'),
-                just('}')
-                    .ignored()
-                    .recover_with(via_parser(end()))
-                    .recover_with(skip_then_retry_until(any().ignored(), end())),
-            )
-            .boxed();
+            .delimited_by(just('{'), just('}'));
 
         choice((
             just("null").to(Json::Null),
@@ -113,22 +90,6 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json, extra::Err<Rich<'a, char>>
             string.map(Json::Str),
             array.map(Json::Array),
             object.map(Json::Object),
-        ))
-        .recover_with(via_parser(nested_delimiters(
-            '{',
-            '}',
-            [('[', ']')],
-            |_| Json::Invalid,
-        )))
-        .recover_with(via_parser(nested_delimiters(
-            '[',
-            ']',
-            [('{', '}')],
-            |_| Json::Invalid,
-        )))
-        .recover_with(skip_then_retry_until(
-            any().ignored(),
-            one_of(",]}").ignored(),
         ))
         .padded()
     })
