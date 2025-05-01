@@ -14,6 +14,7 @@ fn codegen() {
     builder.grammar_file("json.par");
     builder.parser_output_file("parser.rs");
     builder.actions_output_file("grammar_trait.rs");
+    builder.trim_parse_tree();
     builder.generate_parser().unwrap();
 
     for entry in std::fs::read_dir(&output_dir).unwrap() {
