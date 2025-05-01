@@ -8,3 +8,6 @@ path = "app.rs"
 
 [dependencies]
 logos = "0.15.0"
+
+[lints]
+workspace = true

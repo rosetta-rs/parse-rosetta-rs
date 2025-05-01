@@ -8,3 +8,6 @@ path = "app.rs"
 
 [dependencies]
 winnow = "0.7.8"
+
+[lints]
+workspace = true

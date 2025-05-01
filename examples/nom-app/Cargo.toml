@@ -9,3 +9,6 @@ path = "app.rs"
 [dependencies]
 nom = "8.0.0"
 nom-language = "0.1.0"
+
+[lints]
+workspace = true

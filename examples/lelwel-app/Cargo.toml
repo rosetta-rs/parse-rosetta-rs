@@ -13,3 +13,6 @@ logos = "0.15.0"
 [dev-dependencies]
 lelwel = "0.7.1"
 snapbox = "0.6.21"
+
+[lints]
+workspace = true

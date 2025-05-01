@@ -8,3 +8,6 @@ path = "app.rs"
 
 [dependencies]
 chumsky = "0.10.1"
+
+[lints]
+workspace = true

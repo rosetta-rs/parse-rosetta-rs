@@ -8,3 +8,6 @@ path = "app.rs"
 
 [dependencies]
 yap = "0.12"
+
+[lints]
+workspace = true

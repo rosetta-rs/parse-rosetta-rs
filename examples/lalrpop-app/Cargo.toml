@@ -11,3 +11,6 @@ lalrpop = { version = "0.22", features = ["lexer", "unicode"] }
 
 [dependencies]
 lalrpop-util = { version = "0.22", features = ["lexer", "unicode"] }
+
+[lints]
+workspace = true
