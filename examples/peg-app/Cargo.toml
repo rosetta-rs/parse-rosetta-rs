@@ -7,4 +7,4 @@ name = "peg-app"
 path = "app.rs"
 
 [dependencies]
-peg = "0.8.3"
+peg = "0.8.5"
