@@ -15,7 +15,7 @@ fn main() {
     let src = fs::read_to_string(env::args().nth(1).expect("Expected file argument"))
         .expect("Failed to read file");
 
-    match parser::Json::parse(&src) {
+    match parser::parse_json_file(&src) {
         Ok(json) => {
             #[cfg(debug_assertions)]
             {

@@ -8,6 +8,7 @@ path = "app.rs"
 
 [dependencies]
 pest = "2.8.0"
+pest_derive = "2.8.0"
 
 [lints]
 workspace = true
