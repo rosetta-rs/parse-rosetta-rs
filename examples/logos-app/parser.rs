@@ -15,8 +15,6 @@
 use logos::{Lexer, Logos, Span};
 
 use std::collections::HashMap;
-use std::env;
-use std::fs;
 
 type Error = (String, Span);
 
