@@ -12,3 +12,6 @@ parol_runtime = "3.0.0"
 [dev-dependencies]
 parol = "3.0.1"
 snapbox = "0.6.21"
+
+[lints]
+workspace = true

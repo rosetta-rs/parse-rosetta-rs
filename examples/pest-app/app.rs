@@ -7,9 +7,6 @@
 // option. All files in the project carrying such notice may not be copied,
 // modified, or distributed except according to those terms.
 
-#[macro_use]
-extern crate pest;
-
 mod parser;
 
 use std::{env, fs};
@@ -18,7 +15,7 @@ fn main() {
     let src = fs::read_to_string(env::args().nth(1).expect("Expected file argument"))
         .expect("Failed to read file");
 
-    match parser::Json::parse(&src) {
+    match parser::parse_json_file(&src) {
         Ok(json) => {
             #[cfg(debug_assertions)]
             {

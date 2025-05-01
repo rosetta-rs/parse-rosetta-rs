@@ -6,3 +6,6 @@ members = [
 
 [workspace.package]
 edition = "2021"
+
+[workspace.lints.rust]
+dead_code = "allow"  # relying on `black_box` / debug repr

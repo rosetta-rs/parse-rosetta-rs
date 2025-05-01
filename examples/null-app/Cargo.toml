@@ -5,3 +5,6 @@ edition.workspace = true
 [[bin]]
 name = "null-app"
 path = "app.rs"
+
+[lints]
+workspace = true
