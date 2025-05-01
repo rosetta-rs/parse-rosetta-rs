@@ -15,14 +15,10 @@ fn main() {
 
     let mut json_grammar = grammar::Grammar::new();
     match parser::parse(&src, &path, &mut json_grammar) {
-        Ok(json) => {
+        Ok(_) => {
             #[cfg(debug_assertions)]
             {
-                println!("{:#?}", json);
-            }
-            #[cfg(not(debug_assertions))]
-            {
-                std::hint::black_box(json);
+                println!("{}", json_grammar);
             }
         }
         Err(err) => {
