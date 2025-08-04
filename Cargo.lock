@@ -1104,9 +1104,9 @@ dependencies = [
 
 [[package]]
 name = "parol"
-version = "3.1.0"
+version = "4.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab6ec35871704794d7cf081463092cde3584c3546156fee32112883aa0c4d16e"
+checksum = "6097691ff358675375ad8df7dcc4f9e1c5d8586c27a87bf51272715e38cbebab"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -1120,7 +1120,7 @@ dependencies = [
  "num_cpus",
  "owo-colors",
  "parol-macros",
- "parol_runtime",
+ "parol_runtime 4.0.0",
  "petgraph 0.8.2",
  "rand",
  "rand_regex",
@@ -1128,6 +1128,7 @@ dependencies = [
  "regex",
  "regex-syntax 0.8.5",
  "rustc-hash",
+ "scnr2",
  "serde",
  "serde_json",
  "syn",
@@ -1144,7 +1145,7 @@ name = "parol-app"
 version = "0.0.0"
 dependencies = [
  "parol",
- "parol_runtime",
+ "parol_runtime 3.1.0",
  "snapbox",
 ]
 
@@ -1169,6 +1170,27 @@ dependencies = [
  "parol-macros",
  "petgraph 0.8.2",
  "scnr",
+ "serde_json",
+ "syntree",
+ "syntree_layout",
+ "thiserror",
+]
+
+[[package]]
+name = "parol_runtime"
+version = "4.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9265d9528f1a29ce2b378e6e5aadf76b8617665c3e1782d19e0d94fe244bb002"
+dependencies = [
+ "anyhow",
+ "codespan-reporting 0.12.0",
+ "derive_builder",
+ "function_name",
+ "log",
+ "once_cell",
+ "parol-macros",
+ "petgraph 0.8.2",
+ "scnr2",
  "serde_json",
  "syntree",
  "syntree_layout",
@@ -1580,6 +1602,39 @@ dependencies = [
  "serde_json",
  "seshat-unicode",
  "thiserror",
+]
+
+[[package]]
+name = "scnr2"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f320634de0a0e758663c32c38e3ef3fba3dbd264c33c19c668e4479a4567071"
+dependencies = [
+ "log",
+ "scnr2_macro",
+]
+
+[[package]]
+name = "scnr2_generate"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ad1cd06ea712cce3565b14864e03f92a0dcf76907ec27f5878cc4d94a78d75f3"
+dependencies = [
+ "log",
+ "proc-macro2",
+ "quote",
+ "regex-syntax 0.8.5",
+ "rustc-hash",
+ "syn",
+]
+
+[[package]]
+name = "scnr2_macro"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9e81f71c5c3c702c2259786866f79873b8e0f2340c1b7bd0817bc34cbdbce325"
+dependencies = [
+ "scnr2_generate",
 ]
 
 [[package]]
