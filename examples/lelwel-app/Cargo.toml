@@ -11,7 +11,7 @@ codespan-reporting = "0.12.0"
 logos = "0.15.0"
 
 [dev-dependencies]
-lelwel = "0.8.0"
+lelwel = "0.9.0"
 snapbox = "0.6.21"
 
 [lints]
