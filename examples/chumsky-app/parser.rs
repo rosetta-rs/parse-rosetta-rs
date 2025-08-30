@@ -74,7 +74,7 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
             .padded()
             .delimited_by(just('['), just(']'));
 
-        let member = string.clone().then_ignore(just(':').padded()).then(value);
+        let member = string.then_ignore(just(':').padded()).then(value);
         let object = member
             .clone()
             .separated_by(just(',').padded())

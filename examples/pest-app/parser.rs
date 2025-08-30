@@ -27,7 +27,7 @@ pub enum Json<'i> {
     Object(HashMap<&'i str, Json<'i>>),
 }
 
-pub fn parse_json_file(input: &str) -> Result<Json<'_>, Error<Rule>> {
+pub fn parse_json_file(input: &str) -> Result<Json<'_>, Box<Error<Rule>>> {
     use pest::iterators::Pair;
 
     let json = JSONParser::parse(Rule::json, input)?.next().unwrap();

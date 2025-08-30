@@ -82,8 +82,8 @@ where
             b'"' => b'"',
             b'\\' => b'\\',
             b'/' => b'/',
-            b'b' => '\u{0008}' as u8,
-            b'f' => '\u{000c}' as u8,
+            b'b' => 8u8,
+            b'f' => 12u8,
             b'n' => b'\n',
             b'r' => b'\r',
             b't' => b'\t',
@@ -123,7 +123,7 @@ where
     I: RangeStream<Item = u8, Range = &'a [u8]> + 'a,
     I::Error: ParseError<I::Item, I::Range, I::Position>,
 {
-    range::take_while1(|b| b >= b'0' && b <= b'9')
+    range::take_while1(|b: u8| b.is_ascii_digit())
 }
 
 fn lex<'a, P>(p: P) -> impl Parser<Input = P::Input, Output = P::Output>
