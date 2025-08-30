@@ -1,7 +1,7 @@
 #[test]
 fn codegen() {
-    use snapbox::assert_data_eq;
     use snapbox::Data;
+    use snapbox::assert_data_eq;
 
     let tmp_dir = env!("CARGO_TARGET_TMPDIR");
     let mut output_dir = std::path::PathBuf::from(tmp_dir);
