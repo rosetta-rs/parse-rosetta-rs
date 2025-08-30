@@ -5,10 +5,10 @@
 // ---------------------------------------------------------
 
 use parol_runtime::{
-    parser::{
-        parse_tree_type::TreeConstruct, LLKParser, LookaheadDFA, ParseType, Production, Trans,
-    },
     ParolError, ParseTree, TokenStream,
+    parser::{
+        LLKParser, LookaheadDFA, ParseType, Production, Trans, parse_tree_type::TreeConstruct,
+    },
 };
 use scnr2::scanner;
 use std::path::Path;
@@ -52,6 +52,7 @@ scanner! {
             token r"null" => 13; // "Null"
             token r#""(\\.|[^"])*""# => 14; // "String"
             token r"-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][-+]?(0|[1-9][0-9]*)?)?" => 15; // "Number"
+            token r"." => 16; // "Error"
         }
     }
 }
