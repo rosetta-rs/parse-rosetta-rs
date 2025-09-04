@@ -11,7 +11,7 @@ This repo tries to assess Rust parsing performance.
 | [lelwel]   | LL(1)         | in grammar  | build script       | `&str`                  | pratt                  | Yes                 | No              |
 | [logos]    | lexer         | in source   | proc macro         | `&str`, `&[u8]`         | ?                      | ?                   | ?               |
 | [nom]      | combinators   | in source   | library            | `&str`, `&[u8]`, custom | [pratt][nom-pratt]     | Yes                 | Yes             |
-| [parol]    | LL(k)/LALR(R) | in grammar  | build script       | `&str`                  | none                   | ?                   | No              |
+| [parol]    | LL(k)/LALR(1) | in source   | build script       | `&str`                  | climbing               | No                  | No              |
 | [peg]      | PEG           | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | climbing               | Yes                 | No              |
 | [pest]     | PEG           | external    | proc macro (file)  | `&str`                  | climbing               | No                  | No              |
 | [winnow]   | combinators   | in source   | library            | `&str`, `&[T]`, custom  | none                   | Yes                 | Yes             |
