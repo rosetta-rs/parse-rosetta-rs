@@ -275,16 +275,6 @@ checksum = "f46ad14479a25103f283c0f10005961cf086d8dc42205bb44c46ac563475dca6"
 
 [[package]]
 name = "codespan-reporting"
-version = "0.11.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3538270d33cc669650c4b093848450d380def10c331d38c768e34cac80576e6e"
-dependencies = [
- "termcolor",
- "unicode-width",
-]
-
-[[package]]
-name = "codespan-reporting"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fe6d2e5af09e8c8ad56c969f2157a3d4238cebc7c55f0a517728c38f7b200f81"
@@ -761,26 +751,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
-name = "lelwel"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b114b138d72035523cd873962259a579c2681f90fcfa48d4df4e2496f1e2460"
-dependencies = [
- "codespan-reporting 0.11.1",
- "logos",
-]
-
-[[package]]
-name = "lelwel-app"
-version = "0.0.0"
-dependencies = [
- "codespan-reporting 0.12.0",
- "lelwel",
- "logos",
- "snapbox",
-]
-
-[[package]]
 name = "libc"
 version = "0.2.172"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1091,7 +1061,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a796c68684c9e3282e7121f18485324f0ae8749b29e09ba6d10236ecf85b46ef"
 dependencies = [
  "anyhow",
- "codespan-reporting 0.12.0",
+ "codespan-reporting",
  "derive_builder",
  "function_name",
  "log",
