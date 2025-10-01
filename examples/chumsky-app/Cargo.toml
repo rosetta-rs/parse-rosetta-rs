@@ -7,7 +7,7 @@ name = "chumsky-app"
 path = "app.rs"
 
 [dependencies]
-chumsky = "0.10.1"
+chumsky = "0.11.0"
 
 [lints]
 workspace = true
