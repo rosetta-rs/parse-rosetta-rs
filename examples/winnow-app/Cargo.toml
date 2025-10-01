@@ -7,7 +7,7 @@ name = "winnow-app"
 path = "app.rs"
 
 [dependencies]
-winnow = "0.7.8"
+winnow = "0.7.13"
 
 [lints]
 workspace = true
