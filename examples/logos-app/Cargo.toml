@@ -7,7 +7,7 @@ name = "logos-app"
 path = "app.rs"
 
 [dependencies]
-logos = "0.15.0"
+logos = "0.15.1"
 
 [lints]
 workspace = true
