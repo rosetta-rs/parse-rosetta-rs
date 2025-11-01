@@ -7,14 +7,14 @@ name = "grmtools-app"
 path = "app.rs"
 
 [build-dependencies]
-cfgrammar = "0.13"
-lrlex = "0.13"
-lrpar = "0.13"
+cfgrammar = "0.14"
+lrlex = "0.14"
+lrpar = "0.14"
 
 [dependencies]
-cfgrammar = "0.13"
-lrlex = "0.13"
-lrpar = "0.13"
+cfgrammar = "0.14"
+lrlex = "0.14"
+lrpar = "0.14"
 
 [lints]
 workspace = true
