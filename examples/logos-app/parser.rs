@@ -122,47 +122,54 @@ pub fn parse_value(lexer: &mut JsonLexer<'_>) -> Result<Value> {
 fn parse_array(lexer: &mut JsonLexer<'_>) -> Result<Value> {
     let mut array = Vec::new();
     let span = lexer.span();
-    let mut awaits_comma = false;
-    let mut awaits_value = false;
 
-    while let Some(token) = lexer.next()? {
+    let unmatched = || "unmatched opening bracket".to_owned();
+    let unexpected = || "unexpected token here (context: array)".to_owned();
+
+    let Some(mut token) = lexer.next()? else {
+        return Err((unmatched(), lexer.span()));
+    };
+
+    if matches!(token, Token::BraceClose) {
+        return Ok(Value::Array(array));
+    }
+
+    loop {
         match token {
-            Token::Bool(b) if !awaits_comma => {
+            Token::Bool(b) => {
                 array.push(Value::Bool(b));
-                awaits_value = false;
             }
-            Token::BraceOpen if !awaits_comma => {
+            Token::BraceOpen => {
                 let object = parse_object(lexer)?;
                 array.push(object);
-                awaits_value = false;
             }
-            Token::BracketOpen if !awaits_comma => {
+            Token::BracketOpen => {
                 let sub_array = parse_array(lexer)?;
                 array.push(sub_array);
-                awaits_value = false;
             }
-            Token::BracketClose if !awaits_value => return Ok(Value::Array(array)),
-            Token::Comma if awaits_comma => awaits_value = true,
-            Token::Null if !awaits_comma => {
+            Token::Null => {
                 array.push(Value::Null);
-                awaits_value = false
             }
-            Token::Number(n) if !awaits_comma => {
+            Token::Number(n) => {
                 array.push(Value::Number(n));
-                awaits_value = false;
             }
-            Token::String(s) if !awaits_comma => {
+            Token::String(s) => {
                 array.push(Value::String(s));
-                awaits_value = false;
             }
-            _ => {
-                return Err((
-                    "unexpected token here (context: array)".to_owned(),
-                    lexer.span(),
-                ))
-            }
+            _ => return Err((unexpected(), lexer.span())),
         }
-        awaits_comma = !awaits_value;
+
+        match lexer.next()? {
+            Some(Token::Comma) => {
+                let Some(t) = lexer.next()? else {
+                    break;
+                };
+                token = t;
+            }
+            Some(Token::BracketClose) => return Ok(Value::Array(array)),
+            None => break,
+            _ => return Err((unexpected(), lexer.span())),
+        }
     }
     Err(("unmatched opening bracket defined here".to_owned(), span))
 }
