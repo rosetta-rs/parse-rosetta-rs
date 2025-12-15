@@ -26,7 +26,7 @@ type Result<T> = std::result::Result<T, Error>;
 /// > errors, please report them so that we can improve the regex.
 #[derive(Debug, Logos)]
 #[logos(skip r"[ \t\r\n\f]+")]
-pub enum Token {
+pub enum Token<'a> {
     #[token("false", |_| false)]
     #[token("true", |_| true)]
     Bool(bool),
@@ -55,15 +55,15 @@ pub enum Token {
     #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?", |lex| lex.slice().parse::<f64>().unwrap())]
     Number(f64),
 
-    #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#, |lex| lex.slice().to_owned())]
-    String(String),
+    #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#, |lex| lex.slice())]
+    String(&'a str),
 }
 
-pub struct JsonLexer<'a>(pub logos::Lexer<'a, Token>);
+pub struct JsonLexer<'a>(pub logos::Lexer<'a, Token<'a>>);
 
 impl<'a> JsonLexer<'a> {
     #[inline(always)]
-    fn next(&mut self) -> Result<Option<Token>> {
+    fn next(&mut self) -> Result<Option<Token<'a>>> {
         // This can also be implemented in terms of .transpose().map_err()...
         match self.0.next() {
             Some(Err(())) => Err(("Lex failed".to_owned(), self.span())),
@@ -80,7 +80,7 @@ impl<'a> JsonLexer<'a> {
 
 /// Represent any valid JSON value.
 #[derive(Debug)]
-pub enum Value {
+pub enum Value<'a> {
     /// null.
     Null,
     /// true or false.
@@ -88,15 +88,14 @@ pub enum Value {
     /// Any floating point number.
     Number(f64),
     /// Any quoted string.
-    String(String),
+    String(&'a str),
     /// An array of values
-    Array(Vec<Value>),
+    Array(Vec<Value<'a>>),
     /// An dictionary mapping keys and values.
-    Object(HashMap<String, Value>),
+    Object(HashMap<&'a str, Value<'a>>),
 }
 
-/// Parse a token stream into a JSON value.
-pub fn parse_value(lexer: &mut JsonLexer<'_>) -> Result<Value> {
+pub fn parse_value<'a>(lexer: &mut JsonLexer<'a>) -> Result<Value<'a>> {
     if let Some(token) = lexer.next()? {
         match token {
             Token::Bool(b) => Ok(Value::Bool(b)),
@@ -119,7 +118,7 @@ pub fn parse_value(lexer: &mut JsonLexer<'_>) -> Result<Value> {
 /// a valid terminator is found.
 ///
 /// > NOTE: we assume '[' was consumed.
-fn parse_array(lexer: &mut JsonLexer<'_>) -> Result<Value> {
+fn parse_array<'a>(lexer: &mut JsonLexer<'a>) -> Result<Value<'a>> {
     let mut array = Vec::new();
     let span = lexer.span();
 
@@ -178,7 +177,7 @@ fn parse_array(lexer: &mut JsonLexer<'_>) -> Result<Value> {
 /// a valid terminator is found.
 ///
 /// > NOTE: we assume '{' was consumed.
-fn parse_object(lexer: &mut JsonLexer<'_>) -> Result<Value> {
+fn parse_object<'a>(lexer: &mut JsonLexer<'a>) -> Result<Value<'a>> {
     let mut map = HashMap::new();
     let span = lexer.span();
     let mut awaits_comma = false;
