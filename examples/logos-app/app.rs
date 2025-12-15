@@ -11,7 +11,7 @@ fn main() {
     let src = fs::read_to_string(&filename).expect("Failed to read file");
 
     let mut lexer = JsonLexer(parser::Token::lexer(src.as_str()));
-    match parser::parse_value(&mut lexer) {
+    match parser::parse(&mut lexer) {
         Ok(json) => {
             #[cfg(debug_assertions)]
             {
