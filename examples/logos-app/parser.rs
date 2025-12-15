@@ -52,8 +52,8 @@ pub enum Token<'a> {
     #[token("null")]
     Null,
 
-    #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?", |lex| lex.slice().parse::<f64>().unwrap())]
-    Number(f64),
+    #[regex(r"-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?", |lex| lex.slice())]
+    Number(&'a str),
 
     #[regex(r#""([^"\\]|\\["\\bnfrt]|u[a-fA-F0-9]{4})*""#, |lex| lex.slice())]
     String(&'a str),
@@ -86,7 +86,7 @@ pub enum Value<'a> {
     /// true or false.
     Bool(bool),
     /// Any floating point number.
-    Number(f64),
+    Number(&'a str),
     /// Any quoted string.
     String(&'a str),
     /// An array of values
