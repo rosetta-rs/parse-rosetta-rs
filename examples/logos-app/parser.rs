@@ -11,9 +11,8 @@
 //! Example:
 //!     cargo run --example json examples/example.json
 
+use bumpalo::Bump;
 use logos::{Logos, Span};
-
-use std::collections::HashMap;
 
 type Error = (String, Span);
 
@@ -79,8 +78,9 @@ impl<'a> JsonLexer<'a> {
 }
 
 /// Represent any valid JSON value.
+// Lifetimes: 'i is the input, 'a is the arena
 #[derive(Debug)]
-pub enum Value<'a> {
+pub enum Value<'i, 'a> {
     /// null.
     Null,
     /// true or false.
@@ -88,29 +88,31 @@ pub enum Value<'a> {
     /// Any floating point number.
     Number(f64),
     /// Any quoted string.
-    String(&'a str),
+    String(&'i str),
     /// An array of values
-    Array(Vec<Value<'a>>),
+    Array(&'a [Value<'i, 'a>]),
     /// An dictionary mapping keys and values.
-    Object(HashMap<&'a str, Value<'a>>),
+    Object(&'a [(&'i str, Value<'i, 'a>)]),
 }
 
-pub fn parse<'a>(lexer: &mut JsonLexer<'a>) -> Result<Value<'a>> {
+pub fn parse<'i, 'a>(arena: &'a Bump, lexer: &mut JsonLexer<'i>) -> Result<Value<'i, 'a>> {
     Parser {
+        arena,
         str_and_value_buf: Vec::new(),
         lexer,
     }
     .parse_value()
 }
 
-struct Parser<'a, 'l> {
-    str_and_value_buf: Vec<(&'a str, Value<'a>)>,
-    lexer: &'l mut JsonLexer<'a>,
+struct Parser<'i, 'a, 'l> {
+    arena: &'a Bump,
+    str_and_value_buf: Vec<(&'i str, Value<'i, 'a>)>,
+    lexer: &'l mut JsonLexer<'i>,
 }
 
-impl<'a, 'l> Parser<'a, 'l> {
+impl<'i, 'a, 'l> Parser<'i, 'a, 'l> {
     /// Parse a token stream into a JSON value.
-    fn parse_value(&mut self) -> Result<Value<'a>> {
+    fn parse_value(&mut self) -> Result<Value<'i, 'a>> {
         if let Some(token) = self.lexer.next()? {
             match token {
                 Token::Bool(b) => Ok(Value::Bool(b)),
@@ -133,8 +135,8 @@ impl<'a, 'l> Parser<'a, 'l> {
     /// a valid terminator is found.
     ///
     /// > NOTE: we assume '[' was consumed.
-    fn parse_array(&mut self) -> Result<Value<'a>> {
-        let mut array = Vec::new();
+    fn parse_array(&mut self) -> Result<Value<'i, 'a>> {
+        let stack_len = self.str_and_value_buf.len();
         let span = self.lexer.span();
 
         let unmatched = || "unmatched opening bracket".to_owned();
@@ -145,33 +147,26 @@ impl<'a, 'l> Parser<'a, 'l> {
         };
 
         if matches!(token, Token::BraceClose) {
-            return Ok(Value::Array(array));
+            return Ok(Value::Array(&[]));
         }
 
         loop {
-            match token {
-                Token::Bool(b) => {
-                    array.push(Value::Bool(b));
-                }
+            let el = match token {
+                Token::Bool(b) => Value::Bool(b),
                 Token::BraceOpen => {
                     let object = self.parse_object()?;
-                    array.push(object);
+                    object
                 }
                 Token::BracketOpen => {
                     let sub_array = self.parse_array()?;
-                    array.push(sub_array);
+                    sub_array
                 }
-                Token::Null => {
-                    array.push(Value::Null);
-                }
-                Token::Number(n) => {
-                    array.push(Value::Number(n));
-                }
-                Token::String(s) => {
-                    array.push(Value::String(s));
-                }
+                Token::Null => Value::Null,
+                Token::Number(n) => Value::Number(n),
+                Token::String(s) => Value::String(s),
                 _ => return Err((unexpected(), self.lexer.span())),
-            }
+            };
+            self.str_and_value_buf.push(("", el));
 
             match self.lexer.next()? {
                 Some(Token::Comma) => {
@@ -180,7 +175,7 @@ impl<'a, 'l> Parser<'a, 'l> {
                     };
                     token = t;
                 }
-                Some(Token::BracketClose) => return Ok(Value::Array(array)),
+                Some(Token::BracketClose) => return Ok(self.pop_array(stack_len)),
                 None => break,
                 _ => return Err((unexpected(), self.lexer.span())),
             }
@@ -188,19 +183,33 @@ impl<'a, 'l> Parser<'a, 'l> {
         Err(("unmatched opening bracket defined here".to_owned(), span))
     }
 
+    fn pop_array(&mut self, from: usize) -> Value<'i, 'a> {
+        Value::Array(
+            self.arena
+                .alloc_slice_fill_iter(self.str_and_value_buf.drain(from..).map(|(_, a)| a)),
+        )
+    }
+
+    fn pop_obj(&mut self, from: usize) -> Value<'i, 'a> {
+        Value::Object(
+            self.arena
+                .alloc_slice_fill_iter(self.str_and_value_buf.drain(from..)),
+        )
+    }
+
     /// Parse a token stream into an object and return when
     /// a valid terminator is found.
     ///
     /// > NOTE: we assume '{' was consumed.
-    fn parse_object(&mut self) -> Result<Value<'a>> {
-        let mut map = HashMap::new();
+    fn parse_object(&mut self) -> Result<Value<'i, 'a>> {
+        let stack_len = self.str_and_value_buf.len();
         let span = self.lexer.span();
         let mut awaits_comma = false;
         let mut awaits_key = false;
 
         while let Some(token) = self.lexer.next()? {
             match token {
-                Token::BraceClose if !awaits_key => return Ok(Value::Object(map)),
+                Token::BraceClose if !awaits_key => return Ok(self.pop_obj(stack_len)),
                 Token::Comma if awaits_comma => awaits_key = true,
                 Token::String(key) if !awaits_comma => {
                     match self.lexer.next()? {
@@ -213,7 +222,7 @@ impl<'a, 'l> Parser<'a, 'l> {
                         }
                     }
                     let value = self.parse_value()?;
-                    map.insert(key, value);
+                    self.str_and_value_buf.push((key, value));
                     awaits_key = false;
                 }
                 _ => {

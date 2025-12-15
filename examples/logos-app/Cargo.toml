@@ -7,6 +7,7 @@ name = "logos-app"
 path = "app.rs"
 
 [dependencies]
+bumpalo = "3.19.0"
 logos = "0.15.1"
 
 [lints]

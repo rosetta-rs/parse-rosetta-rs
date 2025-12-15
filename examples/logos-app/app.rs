@@ -2,6 +2,7 @@ mod parser;
 
 use std::{env, fs};
 
+use bumpalo::Bump;
 use logos::Logos as _;
 
 use crate::parser::JsonLexer;
@@ -11,7 +12,8 @@ fn main() {
     let src = fs::read_to_string(&filename).expect("Failed to read file");
 
     let mut lexer = JsonLexer(parser::Token::lexer(src.as_str()));
-    match parser::parse(&mut lexer) {
+    let arena = Bump::new();
+    match parser::parse(&arena, &mut lexer) {
         Ok(json) => {
             #[cfg(debug_assertions)]
             {
