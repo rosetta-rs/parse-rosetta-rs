@@ -8,6 +8,7 @@ This repo tries to assess Rust parsing performance.
 | [combine]  | combinators   | in source   | library            | `&str`                  | ?                      | ?                   | ?               |
 | [grmtools] | CFG           | in grammar  | library            | ?                       | ?                      | ?                   | ?               |
 | [lalrpop]  | LR(1)         | in grammar  | build script       | `&str`                  | none                   | Yes                 | No              |
+| [lelwel]   | LL(1)         | in source   | build script       | `&str`                  | [pratt][lelwel-pratt]  | No                  | No              |
 | [logos]    | lexer         | in source   | proc macro         | `&str`, `&[u8]`         | ?                      | ?                   | ?               |
 | [nom]      | combinators   | in source   | library            | `&str`, `&[u8]`, custom | [pratt][nom-pratt]     | Yes                 | Yes             |
 | [parol]    | LL(k)/LALR(1) | in source   | build script       | `&str`                  | climbing               | No                  | No              |
@@ -18,7 +19,6 @@ This repo tries to assess Rust parsing performance.
 
 Formerly, we compared:
 - [pom]: lack of notoriety
-- [lelwel]: example is too different than others
 
 # Results
 
@@ -29,6 +29,7 @@ grmtools | 2,777 KiB | 11s | 180ms | ![Download count](https://img.shields.io/cr
 chumsky | 161 KiB | 5s | 46ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.12.0
 combine | 175 KiB | 4s | 53ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
 lalrpop | 1,522 KiB | 12s | 39ms | ![Download count](https://img.shields.io/crates/dr/lalrpop) | v0.23.0
+lelwel | - | - | - | ![Download count](https://img.shields.io/crates/dr/lelwel) | v0.10.4
 logos | 71 KiB | 6s | 22ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.16.1
 nom | 88 KiB | 3s | 68ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
 parol | 480 KiB | 9s | 183ms | ![Download count](https://img.shields.io/crates/dr/parol) | v4.3.5
@@ -56,6 +57,7 @@ $ ./format.py
 [combine]: https://github.com/Marwes/combine
 [lalrpop]: https://github.com/lalrpop/lalrpop
 [lelwel]: https://github.com/0x2a-42/lelwel
+[lelwel-pratt]: https://github.com/0x2a-42/lelwel?tab=readme-ov-file#direct-left-recursion
 [logos]: https://github.com/maciejhirsz/logos
 [nom]: https://github.com/geal/nom
 [nom-pratt]: https://docs.rs/nom-language/latest/nom_language/precedence/fn.precedence.html
