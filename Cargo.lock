@@ -788,7 +788,6 @@ dependencies = [
  "codespan-reporting",
  "lelwel",
  "logos 0.16.1",
- "snapbox",
 ]
 
 [[package]]

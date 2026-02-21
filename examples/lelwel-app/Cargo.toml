@@ -10,9 +10,8 @@ path = "app.rs"
 codespan-reporting = "0.13.1"
 logos = "0.16.1"
 
-[dev-dependencies]
+[build-dependencies]
 lelwel = "0.10.2"
-snapbox = "0.6.21"
 
 [lints]
 workspace = true
