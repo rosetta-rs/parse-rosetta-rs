@@ -29,7 +29,7 @@ grmtools | 2,610 KiB | 11s | 164ms | ![Download count](https://img.shields.io/cr
 chumsky | 150 KiB | 4s | 32ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.10.1
 combine | 181 KiB | 4s | 53ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
 lalrpop | 1,523 KiB | 11s | 37ms | ![Download count](https://img.shields.io/crates/dr/lalrpop) | v0.22.2
-lelwel | 142 KiB | 4s | 10ms | ![Download count](https://img.shields.io/crates/dr/lelwel) | v0.8.0
+lelwel | - | - | - | ![Download count](https://img.shields.io/crates/dr/lelwel) | v0.10.2
 logos | 90 KiB | 4s | 21ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.15.0
 nom | 98 KiB | 3s | 65ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
 parol | 492 KiB | 9s | 174ms | ![Download count](https://img.shields.io/crates/dr/parol) | v4.1.0
