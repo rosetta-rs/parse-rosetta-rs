@@ -1,0 +1,17 @@
+[package]
+name = "lelwel-app"
+edition.workspace = true
+
+[[bin]]
+name = "lelwel-app"
+path = "app.rs"
+
+[dependencies]
+codespan-reporting = "0.13.1"
+logos = "0.16.1"
+
+[build-dependencies]
+lelwel = "0.10.2"
+
+[lints]
+workspace = true
