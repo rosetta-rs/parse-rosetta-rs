@@ -7,12 +7,12 @@ name = "parol-app"
 path = "app.rs"
 
 [dependencies]
-parol_runtime = "4.0.1"
-scnr2 = "0.3.3"
+parol_runtime = "4.3.0"
+scnr2 = "0.5.0"
 
 [dev-dependencies]
-parol = "4.1.1"
-snapbox = "0.6.21"
+parol = "4.3.0"
+snapbox = "1.0.1"
 
 [lints]
 workspace = true
