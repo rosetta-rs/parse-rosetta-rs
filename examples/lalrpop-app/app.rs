@@ -3,9 +3,7 @@ extern crate lalrpop_util;
 use std::env;
 use std::fs;
 
-#[rustfmt::skip]
-#[allow(clippy::all)]
-mod json;
+lalrpop_util::lalrpop_mod!(json, "json.rs");
 mod json_val;
 
 fn main() {
