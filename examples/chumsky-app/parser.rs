@@ -1,13 +1,12 @@
-//! This is a parser for JSON.
+//! This is a parser for JSON. Unlike `json.rs`, it is configured for speed over error quality.
 //! Run it with the following command:
-//! cargo run --example json -- examples/sample.json
+//! cargo run --example json_fast -- examples/sample.json
 
 use chumsky::prelude::*;
 use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
 pub enum Json {
-    Invalid,
     Null,
     Bool(bool),
     Str(String),
@@ -46,7 +45,7 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
                 just('r').to('\r'),
                 just('t').to('\t'),
                 just('u').ignore_then(text::digits(16).exactly(4).to_slice().validate(
-                    |digits, _e, emitter| {
+                    |digits, _, emitter| {
                         char::from_u32(u32::from_str_radix(digits, 16).unwrap()).unwrap_or_else(
                             || {
                                 emitter.emit(Default::default());
@@ -74,7 +73,7 @@ pub fn parser<'a>() -> impl Parser<'a, &'a str, Json> {
             .padded()
             .delimited_by(just('['), just(']'));
 
-        let member = string.clone().then_ignore(just(':').padded()).then(value);
+        let member = string.then_ignore(just(':').padded()).then(value);
         let object = member
             .clone()
             .separated_by(just(',').padded())
