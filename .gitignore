@@ -2,4 +2,3 @@ target
 **/*.rs.bk
 /.idea
 /*.iml
-examples/lalrpop-app/json.rs

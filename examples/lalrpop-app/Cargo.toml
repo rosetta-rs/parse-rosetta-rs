@@ -7,10 +7,10 @@ name = "lalrpop-app"
 path = "app.rs"
 
 [build-dependencies]
-lalrpop = { version = "0.22", features = ["lexer", "unicode"] }
+lalrpop = { version = "0.23", features = ["lexer", "unicode"] }
 
 [dependencies]
-lalrpop-util = { version = "0.22", features = ["lexer", "unicode"] }
+lalrpop-util = { version = "0.23", features = ["lexer", "unicode"] }
 
 [lints]
 workspace = true
