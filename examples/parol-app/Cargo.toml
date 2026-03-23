@@ -8,11 +8,11 @@ path = "app.rs"
 
 [dependencies]
 parol_runtime = "4.3.0"
-scnr2 = "0.5.0"
+scnr2 = "0.5.1"
 
 [dev-dependencies]
-parol = "4.3.0"
-snapbox = "1.0.1"
+parol = "4.3.5"
+snapbox = "1.1.0"
 
 [lints]
 workspace = true
