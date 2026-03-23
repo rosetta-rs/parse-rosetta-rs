@@ -24,19 +24,19 @@ Formerly, we compared:
 
 Name | Overhead (release) | Build (debug) | Parse (release) | Downloads | Version
 -----|--------------------|---------------|-----------------|-----------|--------
-null | 0 KiB | 190ms | 2ms | - | -
-grmtools | 2,783 KiB | 10s | 187ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.14.1
-chumsky | 161 KiB | 4s | 46ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.12.0
-combine | 175 KiB | 4s | 52ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
-lalrpop | 1,523 KiB | 12s | 40ms | ![Download count](https://img.shields.io/crates/dr/lalrpop) | v0.23.0
+null | 0 KiB | 164ms | 2ms | - | -
+grmtools | 2,777 KiB | 11s | 180ms | ![Download count](https://img.shields.io/crates/dr/cfgrammar) | v0.14.1
+chumsky | 161 KiB | 5s | 46ms | ![Download count](https://img.shields.io/crates/dr/chumsky) | v0.12.0
+combine | 175 KiB | 4s | 53ms | ![Download count](https://img.shields.io/crates/dr/combine) | v3.8.1
+lalrpop | 1,522 KiB | 12s | 39ms | ![Download count](https://img.shields.io/crates/dr/lalrpop) | v0.23.0
 logos | 71 KiB | 6s | 22ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.16.1
-nom | 88 KiB | 3s | 67ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
-parol | 480 KiB | 8s | 185ms | ![Download count](https://img.shields.io/crates/dr/parol) | v4.3.0
-peg | 77 KiB | 2s | 28ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.5
-pest | 119 KiB | 3s | 59ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.8.6
+nom | 88 KiB | 3s | 68ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
+parol | 480 KiB | 9s | 183ms | ![Download count](https://img.shields.io/crates/dr/parol) | v4.3.5
+peg | 77 KiB | 2s | 26ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.5
+pest | 119 KiB | 3s | 62ms | ![Download count](https://img.shields.io/crates/dr/pest) | v2.8.6
 serde_json | 57 KiB | 3s | 18ms | ![Download count](https://img.shields.io/crates/dr/serde_json) | v1.0.149
-winnow | 67 KiB | 2s | 29ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v0.7.14
-yap | 60 KiB | 478ms | 39ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
+winnow | 67 KiB | 1s | 29ms | ![Download count](https://img.shields.io/crates/dr/winnow) | v1.0.0
+yap | 60 KiB | 453ms | 39ms | ![Download count](https://img.shields.io/crates/dr/yap) | v0.12.0
 
 *System: Linux 6.17.9-76061709-generic (x86_64), rustc 1.94.0 (4a4ef493e 2026-03-02) w/ `-j 8`*
 
