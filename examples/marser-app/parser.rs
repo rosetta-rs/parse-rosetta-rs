@@ -5,17 +5,16 @@ use marser::{
     error::{AnnotationKind, FurthestFailError, InlineError},
     label::WithLabel,
     matcher::{
-        AnyToken, MatcherCombinator,
         commit_matcher::commit_on,
         if_error::{if_error, if_error_else_fail},
         multiple::many,
         negative_lookahead,
         one_or_more::one_or_more,
         optional::optional,
-        positive_lookahead, unwanted,
+        positive_lookahead, unwanted, AnyToken, MatcherCombinator,
     },
     one_of::one_of,
-    parser::{Parser, ParserCombinator, deferred::recursive, token_parser::TokenParser},
+    parser::{deferred::recursive, token_parser::TokenParser, Parser, ParserCombinator},
     trace::WithTrace,
 };
 
@@ -176,9 +175,7 @@ pub fn get_json_grammar<'src>() -> impl Parser<'src, &'src str, Output = JsonVal
             }) as Box<dyn Fn(&mut FurthestFailError)>
             ),
         )))
-        .recover_with(
-            invalid_element.clone()
-        )
+        .recover_with(invalid_element.clone())
         .with_label("number");
 
         let character = Rc::new(
@@ -341,8 +338,6 @@ pub fn get_json_grammar<'src>() -> impl Parser<'src, &'src str, Output = JsonVal
         let string = raw_string
             .map_output(JsonValue::String)
             .with_label("string");
-
-
 
         capture!((
             ws.clone().trace(),
