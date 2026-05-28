@@ -10,6 +10,7 @@ This repo tries to assess Rust parsing performance.
 | [lalrpop]  | LR(1)         | in grammar  | build script       | `&str`                  | none                   | Yes                 | No              |
 | [lelwel]   | LL(1)         | in source   | build script       | `&str`                  | [pratt][lelwel-pratt]  | No                  | No              |
 | [logos]    | lexer         | in source   | proc macro         | `&str`, `&[u8]`         | ?                      | ?                   | ?               |
+| [marser]   | combinators   | in source   | library            | `&str`, `&[u8]`, custom | none                   | Yes                 | No              |
 | [nom]      | combinators   | in source   | library            | `&str`, `&[u8]`, custom | [pratt][nom-pratt]     | Yes                 | Yes             |
 | [parol]    | LL(k)/LALR(1) | in source   | build script       | `&str`                  | climbing               | No                  | No              |
 | [peg]      | PEG           | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | climbing               | Yes                 | No              |
@@ -31,6 +32,7 @@ combine | 175 KiB | 4s | 53ms | ![Download count](https://img.shields.io/crates/
 lalrpop | 1,523 KiB | 12s | 40ms | ![Download count](https://img.shields.io/crates/dr/lalrpop) | v0.23.1
 lelwel | 175 KiB | 7s | 33ms | ![Download count](https://img.shields.io/crates/dr/lelwel) | v0.10.4
 logos | 71 KiB | 6s | 22ms | ![Download count](https://img.shields.io/crates/dr/logos) | v0.16.1
+marser| - | - | - | ![Download count](https://img.shields.io/crates/dr/marser) | v0.1.3
 nom | 88 KiB | 3s | 68ms | ![Download count](https://img.shields.io/crates/dr/nom) | v8.0.0
 parol | 480 KiB | 9s | 184ms | ![Download count](https://img.shields.io/crates/dr/parol) | v4.4.0
 peg | 77 KiB | 2s | 29ms | ![Download count](https://img.shields.io/crates/dr/peg) | v0.8.5
@@ -59,6 +61,7 @@ $ ./format.py
 [lelwel]: https://github.com/0x2a-42/lelwel
 [lelwel-pratt]: https://github.com/0x2a-42/lelwel?tab=readme-ov-file#direct-left-recursion
 [logos]: https://github.com/maciejhirsz/logos
+[marser]: https://github.com/ArneCode/marser
 [nom]: https://github.com/geal/nom
 [nom-pratt]: https://docs.rs/nom-language/latest/nom_language/precedence/fn.precedence.html
 [parol]: https://github.com/jsinger67/parol
