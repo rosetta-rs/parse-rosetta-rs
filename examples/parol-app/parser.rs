@@ -58,6 +58,7 @@ scanner! {
 }
 
 const MAX_K: usize = 1;
+pub const SKIP_TOKENS_BY_SCANNER_STATE: &[&[parol_runtime::TerminalIndex]; 1] = &[&[]];
 
 pub const NON_TERMINALS: &[&str; 11] = &[
     /*  0 */ "Array",
@@ -307,12 +308,13 @@ where
     let mut user_actions = GrammarAuto::new(user_actions);
     llk_parser.parse_into(
         tree_builder,
-        TokenStream::new(
+        TokenStream::new_with_skip_tokens(
             input,
             file_name,
             scanner.scanner_impl.clone(),
             &GrammarScanner::match_function,
             MAX_K,
+            SKIP_TOKENS_BY_SCANNER_STATE,
         )
         .unwrap(),
         &mut user_actions,
