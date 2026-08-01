@@ -216,7 +216,21 @@ dependencies = [
  "proc-macro2",
  "quote",
  "regex",
- "vob",
+ "vob 3.0.6",
+]
+
+[[package]]
+name = "cfgrammar"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ac7daac375d1da174c0ec14cb5c3b244eb2bbf6a50c07b41442376ca6633af38"
+dependencies = [
+ "indexmap",
+ "num-traits",
+ "proc-macro2",
+ "quote",
+ "regex",
+ "vob 4.0.0",
 ]
 
 [[package]]
@@ -523,7 +537,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -626,7 +640,7 @@ checksum = "0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280"
 name = "grmtools-app"
 version = "0.0.0"
 dependencies = [
- "cfgrammar",
+ "cfgrammar 0.15.0",
  "lrlex",
  "lrpar",
 ]
@@ -904,7 +918,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6faf26145c0571bcecf7887802d7dc2947154cb438801d6c90ef3633e68b2365"
 dependencies = [
  "bincode",
- "cfgrammar",
+ "cfgrammar 0.14.2",
  "getopts",
  "glob",
  "lrpar",
@@ -926,7 +940,7 @@ checksum = "402f799a7cfbaf548546e16191a15b7abaeb16ac25bbff5ab41fd93d7548d7a9"
 dependencies = [
  "bincode",
  "cactus",
- "cfgrammar",
+ "cfgrammar 0.14.2",
  "filetime",
  "indexmap",
  "lrtable",
@@ -939,7 +953,7 @@ dependencies = [
  "syn",
  "unicode-width 0.1.14",
  "vergen",
- "vob",
+ "vob 3.0.6",
  "web-time",
 ]
 
@@ -950,11 +964,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2cf7aa1c4ec2f5340e598f7455f94ce1b4f607a7510c6019c0295128ddf943b1"
 dependencies = [
  "bincode",
- "cfgrammar",
+ "cfgrammar 0.14.2",
  "fnv",
  "num-traits",
  "sparsevec",
- "vob",
+ "vob 3.0.6",
 ]
 
 [[package]]
@@ -1476,7 +1490,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -1668,7 +1682,7 @@ dependencies = [
  "bincode",
  "num-traits",
  "packedvec",
- "vob",
+ "vob 3.0.6",
 ]
 
 [[package]]
@@ -1741,7 +1755,7 @@ dependencies = [
  "getrandom",
  "once_cell",
  "rustix",
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -1750,7 +1764,7 @@ version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2111ef44dae28680ae9752bb89409e7310ca33a8c621ebe7b106cf5c928b3ac0"
 dependencies = [
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -1946,6 +1960,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "vob"
+version = "4.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8e840c5339237ded42621d3e376ed7008bf79b68574e97454c2a46fe6f3bbe7f"
+dependencies = [
+ "num-traits",
+]
+
+[[package]]
 name = "void"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2083,7 +2106,7 @@ version = "0.1.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c2a7b1c03c876122aa43f3020e6c3c3ee5c05081c9a00739faf7503aeba10d22"
 dependencies = [
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
