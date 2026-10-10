@@ -2,23 +2,40 @@
 
 This repo tries to assess Rust parsing performance.
 
-| crate      | parser type   | action code | integration        | input type              | precedence             | parameterized rules | streaming input |
-|------------|---------------|-------------|--------------------|-------------------------|------------------------|---------------------|-----------------|
-| [chumsky]  | combinators   | in source   | library            | `&str`, `&[u8]`, custom | [pratt][chumsky-pratt] | Yes                 | Yes             |
-| [combine]  | combinators   | in source   | library            | `&str`                  | ?                      | ?                   | ?               |
-| [grmtools] | CFG           | in grammar  | library            | ?                       | ?                      | ?                   | ?               |
-| [lalrpop]  | LR(1)         | in grammar  | build script       | `&str`                  | none                   | Yes                 | No              |
-| [lelwel]   | LL(1)         | in source   | build script       | `&str`                  | [pratt][lelwel-pratt]  | No                  | No              |
-| [logos]    | lexer         | in source   | proc macro         | `&str`, `&[u8]`         | ?                      | ?                   | ?               |
-| [nom]      | combinators   | in source   | library            | `&str`, `&[u8]`, custom | [pratt][nom-pratt]     | Yes                 | Yes             |
-| [parol]    | LL(k)/LALR(1) | in source   | build script       | `&str`                  | climbing               | No                  | No              |
-| [peg]      | PEG           | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  | climbing               | Yes                 | No              |
-| [pest]     | PEG           | external    | proc macro (file)  | `&str`                  | climbing               | No                  | No              |
-| [winnow]   | combinators   | in source   | library            | `&str`, `&[T]`, custom  | none                   | Yes                 | Yes             |
-| [yap]      | combinators   | in source   | library            | `&str`, `&[T]`, custom  | none                   | Yes                 | ?               |
+| crate      | parser type   | action code | integration        | input type              |
+|------------|---------------|-------------|--------------------|-------------------------|
+| [chumsky]  | combinators   | in source   | library            | `&str`, `&[u8]`, custom |
+| [combine]  | combinators   | in source   | library            | `&str`                  |
+| [grmtools] | CFG           | in grammar  | library            | ?                       |
+| [lalrpop]  | LR(1)         | in grammar  | build script       | `&str`                  |
+| [lelwel]   | LL(1)         | in source   | build script       | `&str`                  |
+| [logos]    | lexer         | in source   | proc macro         | `&str`, `&[u8]`         |
+| [nom]      | combinators   | in source   | library            | `&str`, `&[u8]`, custom |
+| [parol]    | LL(k)/LALR(1) | in source   | build script       | `&str`                  |
+| [peg]      | PEG           | in grammar  | proc macro (block) | `&str`, `&[T]`, custom  |
+| [pest]     | PEG           | external    | proc macro (file)  | `&str`                  |
+| [winnow]   | combinators   | in source   | library            | `&str`, `&[T]`, custom  |
+| [yap]      | combinators   | in source   | library            | `&str`, `&[T]`, custom  |
 
 Formerly, we compared:
 - [pom]: lack of notoriety
+
+# Features
+
+| crate    | operator precedence    | parameterized rules | streaming input | lossless syntax tree
+|----------|------------------------|---------------------|-----------------|---------------------
+| chumsky  | [pratt][chumsky-pratt] | ✅                  | ✅              | ❌
+| combine  | ?                      | ?                   | ?               | ❌
+| grmtools | ?                      | ?                   | ?               | ❌
+| lalrpop  | ❌                     | ✅                  | ❌              | ❌
+| lelwel   | [pratt][lelwel-pratt]  | ❌                  | ❌              | ✅
+| logos    | ❌                     | ❌                  | ?               | ❌
+| nom      | [pratt][nom-pratt]     | ✅                  | ✅              | ❌
+| parol    | ❌                     | ❌                  | ❌              | ✅
+| peg      | climbing               | ✅                  | ❌              | ❌
+| pest     | climbing               | ❌                  | ❌              | ❌
+| winnow   | ❌                     | ✅                  | ✅              | ❌
+| yap      | ❌                     | ✅                  | ?               | ❌
 
 # Results
 
